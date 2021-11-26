@@ -1,9 +1,10 @@
 *.bot
+.idea/deployment.xml
 src/test/**
 out/
 target/
 cache/
-.idea/
+.idea/*.xml
 *.class
 
 # Mobile Tools for Java (J2ME)

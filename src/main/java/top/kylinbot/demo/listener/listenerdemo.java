@@ -18,6 +18,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import top.kylinbot.demo.service.nsfwService;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -28,7 +29,7 @@ import java.util.Enumeration;
 
 
 @Beans
-public class listenerdemo {
+public class listenerdemo extends nsfwService {
     private static final String IMG_PATH = "~/target/photo_2021-11-20_17-19-12.jpg";
     private static int r18 = 0;
 
@@ -36,18 +37,22 @@ public class listenerdemo {
         return r18;
     }
 
-    @OnPrivate
+    @OnGroup
     @Filter(value = "!r18 on", trim = true, matchType = MatchType.EQUALS)
-    public void setR18(PrivateMsg msg, MsgSender sender) {
+    public void setR18(GroupMsg groupMsg, MsgSender sender) {
         r18 = 1;
-        sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), "r18 is on:" + getR18());
+//        sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), "now r18 is on:" + getR18());
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "now r18 is on:" + getR18());
+
     }
 
-    @OnPrivate
+    @OnGroup
     @Filter(value = "!r18 off", trim = true, matchType = MatchType.EQUALS)
-    public void offR18(PrivateMsg msg, MsgSender sender) {
+    public void offR18(GroupMsg groupMsg, MsgSender sender) {
         r18 = 0;
-        sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), "r18 is off:" + getR18());
+//        sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), "now r18 is off:" + getR18());
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "now r18 is off:" + getR18());
+
     }
 
 
@@ -94,7 +99,7 @@ public class listenerdemo {
     }
 
     @OnGroup
-    @Filter(value = "show me the photo", trim = true, matchType = MatchType.EQUALS)
+    @Filter(value = "show me the photo", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendImg(GroupMsg msg, MsgSender sender) {
         CatCodeUtil util = CatCodeUtil.INSTANCE;
         String image = util.getStringTemplate().image(IMG_PATH);
@@ -103,73 +108,21 @@ public class listenerdemo {
 
 
     @OnGroup
-    @Filter(value = ".catGro", trim = true, matchType = MatchType.EQUALS)
+    @Filter(value = ".uestc", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendGroupPixivPic(GroupMsg groupMsg, MsgSender sender) throws IOException {
-        String catCode1 = getCodeFromApi();
 //        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "url:" + urls);
+        String catCode1 = getCodeFromApi();
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), catCode1);
 
     }
 
 
     @OnPrivate
-    @Filter(value = ".catPri", trim = true, matchType = MatchType.EQUALS)
+    @Filter(value = ".uestc", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPrivatePixivPic(PrivateMsg privateMsg, MsgSender sender) throws IOException {
-        String catCode1 = getCodeFromApi();
 //        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "url:" + urls);
+        String catCode1 = getCodeFromApi();
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), catCode1);
-    }
-
-    public String getCodeFromApi() throws IOException {
-        HttpClient client = HttpClients.createDefault();
-        String url = "https://api.lolicon.app/setu/v2?size=regular";
-        if (getR18() == 1) {
-            url = url + "&r18=1";
-        }
-        url = url + "&r18=0";
-        HttpGet get = new HttpGet(url);
-        HttpResponse response = client.execute(get);
-        HttpEntity entity = response.getEntity();
-        String string = EntityUtils.toString(entity);
-        System.out.println(string);
-        String urls = parseJson(string);
-//        String urlEncoded = CatEncoder.getInstance().encodeParams(urls);
-        CatCodeUtil util = CatCodeUtil.INSTANCE;
-        String image = util.getStringTemplate().image(urls);
-        return image;
-    }
-
-    /**
-     * 传入get到的Json信息
-     *
-     * @param string
-     * @return 返回解析到的图片url信息
-     */
-    public String parseJson(String string) {
-        JSONObject jsonObject = JSON.parseObject(string);
-        JSONArray data = jsonObject.getJSONArray("data");
-
-//        String pid = data.getJSONObject(0).getString("pid");
-        String uid = data.getJSONObject(0).getString("uid");
-//        String title = data.getJSONObject(0).getString("title");
-//        String author = data.getJSONObject(0).getString("author");
-        String r18 = data.getJSONObject(0).getString("r18");
-//        String width = data.getJSONObject(0).getString("width");
-//        String height = data.getJSONObject(0).getString("height");
-        //TODO:TAGS
-//        String ext = data.getJSONObject(0).getString("ext");
-//        String uploadDate = data.getJSONObject(0).getString("uploadDate");
-
-        String url = data.getJSONObject(0).getJSONObject("urls").getString("regular");
-//        String url = urls.getString("original");
-
-
-//        System.out.println("pid:" + pid);
-        System.out.println("uid:" + uid);
-//        System.out.println("title:" + title);
-//        System.out.println("author:" + author);
-        System.out.println("url:" + url);
-        return url.replace(".cat", ".re");
     }
 
 
