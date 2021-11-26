@@ -1,6 +1,6 @@
 # KylinBot
 
-[![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/)
+[![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/) [![](https://img.shields.io/badge/Language-English-green)](https://github.com/KyL0N/KylinBot/blob/main/README.md)
 
 
 这是基于[simple-robot](https://github.com/ForteScarlet/simpler-robot) 框架使用[mirai组件](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai)对接[Mirai](https://github.com/mamoe/mirai) 的Demo项目。
@@ -18,7 +18,7 @@ git clone https://github.com/KyL0N/KylinBot.git
 ## Usage
 
 - 配置文件
-打开文件夹 [simbot.yml](src/main/resources/) 并创建一个名为simbot-bots的文件夹, 在文件夹中创建`yourBot1.bot`文件, 填入
+打开文件夹 [src/main/](src/main/resources/) 并创建一个名为simbot-bots的文件夹, 在文件夹中创建`yourBot1.bot`文件, 填入
 
 
 ```yaml
