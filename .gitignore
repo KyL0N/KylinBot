@@ -3,7 +3,7 @@ src/test/**
 out/
 target/
 cache/
-
+.idea/
 *.class
 
 # Mobile Tools for Java (J2ME)
