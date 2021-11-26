@@ -1,10 +1,16 @@
 # KylinBot
 
-这是基于[simple-robot](https://github.com/ForteScarlet/simpler-robot) 框架使用[mirai组件](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai)对接[Mirai](https://github.com/mamoe/mirai) 的Demo项目。
+[![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/)
+
+This project is  based on[simple-robot](https://github.com/ForteScarlet/simpler-robot) which framework use[mirai组件](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai)to[Mirai](https://github.com/mamoe/mirai) 's demo project
+
+
 
 ## Install
 
-- fork或者clone此项目到你的本地，并使用IDE工具打开并构建它。
+- fork or clone code on locally，use IDE to construct
+
+**Warning**: if you clone or fork this project means you have read this document, please make sure you have already read it over
 
 ```shell
 git clone https://github.com/KyL0N/KylinBot.git
@@ -12,24 +18,24 @@ git clone https://github.com/KyL0N/KylinBot.git
 
 ## Usage
 
-- 配置文件
-打开文件夹 [simbot.yml](src/main/resources/) 并创建一个名为simbot-bots的文件夹, 在文件夹中创建`yourBot1.bot`文件, 填入
+- configuration
+  open [simbot.yml](src/main/resources/) and create a directory named simbot-bots的, create file`yourBot1.bot`into the  directory, put below in it
 
 
 ```yaml
-code=QQ号
-password=QQ密码
+code=yourQQcode
+password=yourQQpasswd
 ```
 
-**请务必确认QQ号QQ密码不会泄露，因此项目造成的个人信息泄露以及财产损失, 本人概不负责**
+**Please Make Sure Your QQ And Passwd Wouldn't Leak, If Your Private Information was Leaked And Make Property Loss Due To This Project, I Am Not Responsible For It**
 
-- 运行之前
+- Before Running
 
-  **将你的bot放在一些测试用的群而不是一些大型群**
+  **Put your bot in some test groups instead of some large groups**
 
-- 运行
+- run
 
-  执行[SimbotExampleApplication](src/main/java/top/kylinbot/demo/SimbotExampleApplication.java) 中的main方法
+  run main function in[SimbotExampleApplication](src/main/java/top/kylinbot/demo/SimbotExampleApplication.java)
 
 ## Contributing
 
@@ -40,3 +46,4 @@ PRs accepted.
 **Apache 2.0 License**
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
