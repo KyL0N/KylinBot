@@ -1,4 +1,4 @@
-# KylinBot
+**# KylinBot
 KylinBot
 
 这是基于[simple-robot](https://github.com/ForteScarlet/simpler-robot) 框架使用[mirai组件](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai) 
@@ -34,3 +34,4 @@ password=QQ密码
 
 ### 协助
 如果你有一个好的示例点子，你可以通过[github pr](https://github.com/simple-robot/simbot-mirai-demo/pulls) 来协助此demo项目的更新。
+**
