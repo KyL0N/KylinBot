@@ -1,0 +1,5 @@
+/src/main/resources/simbot-bots
+src/test/**
+out/
+target/
+cache/
