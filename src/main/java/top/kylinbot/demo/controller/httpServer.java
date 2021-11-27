@@ -7,9 +7,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class httpServer implements Runnable {
 
@@ -30,8 +28,11 @@ public class httpServer implements Runnable {
                 System.out.println("远程主机地址：" + server.getRemoteSocketAddress());
 //                DataInputStream in = new DataInputStream(server.getInputStream());
 //                System.out.println(in.readUTF());
-                DataOutputStream out = new DataOutputStream(server.getOutputStream());
-                out.writeUTF("谢谢连接我：" + server.getLocalSocketAddress() + "\nGoodbye!");
+//                DataOutputStream out = new DataOutputStream(server.getOutputStream());
+//                out.writeUTF("谢谢连接我：" + server.getLocalSocketAddress() + "\nGoodbye!");
+
+                HttpRequestHandler request = new HttpRequestHandler(server);
+                request.handle();
 
                 server.close();
             } catch (SocketTimeoutException s) {
@@ -42,5 +43,37 @@ public class httpServer implements Runnable {
                 break;
             }
         }
+    }
+}
+
+class HttpRequestHandler {
+    private Socket socket;
+
+    public HttpRequestHandler(Socket socket) {
+        this.socket = socket;
+    }
+
+    public void handle() throws IOException {
+        StringBuilder builder = new StringBuilder();
+        InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+        char[] charBuf = new char[1024];
+        int mark;
+        while ((mark = isr.read(charBuf)) != -1) {
+            builder.append(charBuf, 0, mark);
+            if (mark < charBuf.length) {
+                break;
+            }
+        }
+        String[] GetString = builder.toString().split("\r\n");
+        GetString[0] = GetString[0].replace(" HTTP/1.1","");
+        GetString[0] = GetString[0].replace("GET /?","");
+        System.out.println(GetString[0]);
+        socket.getOutputStream().
+                write(("HTTP/1.1 200 OK\r\n" +
+                        "Content-Type: text/html; charset=utf-8\r\n" +
+                        "\r\n" +
+                        "<h1>现在你已经成功绑定KylinBot了</h1>\r\n" +
+                        GetString[0]
+                ).getBytes());
     }
 }

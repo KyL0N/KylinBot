@@ -19,15 +19,7 @@ import static top.kylinbot.demo.listener.listenerdemo.getR18;
 public class KylinBotApplication implements SimbotProcess {
     public static void main(String[] args) {
 //        SimbotApp.run(KylinBotApplication.class, args);
-        try {
-            System.out.println("try\n");
-            httpServer t = new httpServer(7000);
-            t.run();
-        } catch (IOException e) {
-            System.out.println("失败\n");
-            e.printStackTrace();
-        }
-        System.out.println("创建完成\n");
+        bindServer(8080);
     }
 
     @Override
@@ -41,5 +33,17 @@ public class KylinBotApplication implements SimbotProcess {
     @Override
     public void pre(@NotNull Configuration config) {
 
+    }
+
+    public static void bindServer(Integer port){
+        try {
+//            System.out.println("try\n");
+            httpServer t = new httpServer(port);
+            t.run();
+        } catch (IOException e) {
+//            System.out.println("失败\n");
+            e.printStackTrace();
+        }
+//        System.out.println("创建完成\n");
     }
 }
