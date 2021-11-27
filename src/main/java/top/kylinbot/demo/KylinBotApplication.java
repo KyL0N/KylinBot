@@ -8,7 +8,9 @@ import love.forte.simbot.core.SimbotApp;
 import love.forte.simbot.core.SimbotContext;
 import love.forte.simbot.core.SimbotProcess;
 import org.jetbrains.annotations.NotNull;
+import top.kylinbot.demo.controller.httpServer;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static top.kylinbot.demo.listener.listenerdemo.getR18;
@@ -16,7 +18,16 @@ import static top.kylinbot.demo.listener.listenerdemo.getR18;
 @SimbotApplication
 public class KylinBotApplication implements SimbotProcess {
     public static void main(String[] args) {
-        SimbotApp.run(KylinBotApplication.class, args);
+//        SimbotApp.run(KylinBotApplication.class, args);
+        try {
+            System.out.println("try\n");
+            httpServer t = new httpServer(7000);
+            t.run();
+        } catch (IOException e) {
+            System.out.println("失败\n");
+            e.printStackTrace();
+        }
+        System.out.println("创建完成\n");
     }
 
     @Override
