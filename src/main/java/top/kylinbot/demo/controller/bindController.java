@@ -1,11 +1,6 @@
 package top.kylinbot.demo.controller;
 
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
-import top.kylinbot.demo.modle.Bind;
-
 //@RequestMapping("/product")
 //@RestController
 public class bindController {

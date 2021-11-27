@@ -8,25 +8,36 @@ import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
+import top.kylinbot.demo.modle.osuUser;
 import top.kylinbot.demo.service.osuService;
+
+import static top.kylinbot.demo.KylinBotApplication.bindServer;
 
 @Beans
 public class osuOauthListener extends osuService {
 
     @OnPrivate
-    @Filter(value = "!oauth",trim = true,matchType = MatchType.EQUALS)
-    public void sendOauth(PrivateMsg privateMsg, MsgSender sender){
+    @Filter(value = "!oauth", trim = true, matchType = MatchType.EQUALS)
+    public void sendOauth(PrivateMsg privateMsg, MsgSender sender) {
         String accountCode = privateMsg.getAccountInfo().getAccountCode();
         String url = getOauthUrl(accountCode);
         sender.SENDER.sendPrivateMsg(accountCode, url);
+        osuUser user = new osuUser("null", accountCode);
+        if (bindServer(8888, user) == 0) {
+            getToken(user);
+            sender.SENDER.sendPrivateMsg(accountCode, "绑定成功");
+        } else {
+            sender.SENDER.sendPrivateMsg(accountCode, "绑定失败或超时");
+        }
+
     }
 
     @OnPrivate
-    @Filter(value = "!token",trim = true,matchType = MatchType.EQUALS)
-    public void sendToken(PrivateMsg privateMsg, MsgSender sender){
+    @Filter(value = "!token", trim = true, matchType = MatchType.EQUALS)
+    public void sendToken(PrivateMsg privateMsg, MsgSender sender) {
         String accountCode = privateMsg.getAccountInfo().getAccountCode();
-        JSONObject token = getToken();
-        sender.SENDER.sendPrivateMsg(accountCode, token.toString());
+//        JSONObject token = getToken();
+//        sender.SENDER.sendPrivateMsg(accountCode, token.toString());
     }
 
 }

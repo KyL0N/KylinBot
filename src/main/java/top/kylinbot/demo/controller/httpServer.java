@@ -1,15 +1,13 @@
 package top.kylinbot.demo.controller;
 
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities;
-import org.apache.http.impl.bootstrap.HttpServer;
+import top.kylinbot.demo.modle.osuUser;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.*;
 
-public class httpServer implements Runnable {
+public class httpServer {
 
     private ServerSocket serverSocket;
 
@@ -19,31 +17,25 @@ public class httpServer implements Runnable {
         System.out.println("Server端口" + port + "将一直等待你的到来");
     }
 
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                System.out.println("等待远程连接，端口号为：" + serverSocket.getLocalPort() + "...");
-                Socket server = serverSocket.accept();
-                System.out.println("远程主机地址：" + server.getRemoteSocketAddress());
-//                DataInputStream in = new DataInputStream(server.getInputStream());
-//                System.out.println(in.readUTF());
-//                DataOutputStream out = new DataOutputStream(server.getOutputStream());
-//                out.writeUTF("谢谢连接我：" + server.getLocalSocketAddress() + "\nGoodbye!");
-
-                HttpRequestHandler request = new HttpRequestHandler(server);
-                request.handle();
-
-                server.close();
-            } catch (SocketTimeoutException s) {
-                System.out.println("Socket timed out!");
-                break;
-            } catch (IOException e) {
-                e.printStackTrace();
-                break;
-            }
+    public int Run(osuUser user) {
+//        while (isGetCode) {
+        try {
+            System.out.println("等待远程连接，端口号为：" + serverSocket.getLocalPort() + "...");
+            Socket server = serverSocket.accept();
+            System.out.println("远程主机地址：" + server.getRemoteSocketAddress());
+            HttpRequestHandler request = new HttpRequestHandler(server);
+            user.setCode(request.handle());
+            server.close();
+            return 0;
+        } catch (SocketTimeoutException s) {
+            System.out.println("Socket timed out!");
+            return 1;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 1;
         }
     }
+//    }
 }
 
 class HttpRequestHandler {
@@ -53,7 +45,7 @@ class HttpRequestHandler {
         this.socket = socket;
     }
 
-    public void handle() throws IOException {
+    public String handle() throws IOException {
         StringBuilder builder = new StringBuilder();
         InputStreamReader isr = new InputStreamReader(socket.getInputStream());
         char[] charBuf = new char[1024];
@@ -65,8 +57,11 @@ class HttpRequestHandler {
             }
         }
         String[] GetString = builder.toString().split("\r\n");
-        GetString[0] = GetString[0].replace(" HTTP/1.1","");
-        GetString[0] = GetString[0].replace("GET /?","");
+        GetString[0] = GetString[0].replace(" HTTP/1.1", "");
+        GetString[0] = GetString[0].replace("GET /?", "");
+        GetString[0] = GetString[0].replace("code=", "");
+        GetString[0] = GetString[0].replace("&state=1579525246", "");
+
         System.out.println(GetString[0]);
         socket.getOutputStream().
                 write(("HTTP/1.1 200 OK\r\n" +
@@ -75,5 +70,6 @@ class HttpRequestHandler {
                         "<h1>现在你已经成功绑定KylinBot了</h1>\r\n" +
                         GetString[0]
                 ).getBytes());
+        return GetString[0];
     }
 }
