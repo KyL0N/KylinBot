@@ -39,7 +39,8 @@ password=yourQQpasswd
   run main function in[SimbotExampleApplication](src/main/java/top/kylinbot/demo/SimbotExampleApplication.java)
 
 ## TODO
-
+1. - [ ] Complete Basic Func 
+2. - [ ] Android Client
 
 ## Contributing
 

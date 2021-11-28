@@ -36,6 +36,10 @@ password=QQ密码
 
   执行[SimbotExampleApplication](src/main/java/top/kylinbot/demo/SimbotExampleApplication.java) 中的main方法
 
+## TODO
+1. - [ ] 完成基本框架
+2. - [ ] 安卓端
+
 ## Contributing
 
 PRs accepted.
