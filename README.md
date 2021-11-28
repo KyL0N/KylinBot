@@ -20,7 +20,7 @@ git clone https://github.com/KyL0N/KylinBot.git
 ## Usage
 
 - configuration
-open [src/main/](src/main/resources/) and create a directory named simbot-bots的, create file`yourBot1.bot`into the  directory, put below in it
+open [src/main/](src/main/resources/) and create a directory named simbot-bots, create file`yourBot1.bot`into the  directory, put below in it
 
 
 ```yaml
@@ -37,6 +37,9 @@ password=yourQQpasswd
 - run
 
   run main function in[SimbotExampleApplication](src/main/java/top/kylinbot/demo/SimbotExampleApplication.java)
+
+## TODO
+
 
 ## Contributing
 
