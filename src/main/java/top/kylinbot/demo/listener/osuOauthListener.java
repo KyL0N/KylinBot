@@ -22,10 +22,11 @@ public class osuOauthListener extends osuService {
         String accountCode = privateMsg.getAccountInfo().getAccountCode();
         String url = getOauthUrl(accountCode);
         sender.SENDER.sendPrivateMsg(accountCode, url);
-        osuUser user = new osuUser("null", accountCode);
+        osuUser user = new osuUser(accountCode, null,null);
         if (bindServer(8888, user) == 0) {
             getToken(user);
             sender.SENDER.sendPrivateMsg(accountCode, "绑定成功");
+            sender.SENDER.sendPrivateMsg(accountCode, "帐户详细:"+"\nqq:"+user.getQQ()+"\nID:"+user.getOsuID());
         } else {
             sender.SENDER.sendPrivateMsg(accountCode, "绑定失败或超时");
         }

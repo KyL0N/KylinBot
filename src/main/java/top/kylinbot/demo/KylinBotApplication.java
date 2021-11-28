@@ -24,6 +24,8 @@ public class KylinBotApplication implements SimbotProcess {
 //        SimbotApp.run(KylinBotApplication.class, args);
         System.out.println("test mysql start");
         mysqlServer mysql = new mysqlServer();
+        osuUser user = new osuUser(null,null,null);
+        mysql.getUserCode(user);
         System.out.println("test mysql end");
     }
 

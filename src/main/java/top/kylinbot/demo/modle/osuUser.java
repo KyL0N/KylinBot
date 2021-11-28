@@ -3,14 +3,16 @@ package top.kylinbot.demo.modle;
 public class osuUser {
     private String code;
     private String qq;
+    private String osuID;
 
     public osuUser() {
 
     }
 
-    public osuUser(String code, String qq) {
+    public osuUser(String qq, String osuID, String code) {
         this.code = code;
         this.qq = qq;
+        this.osuID = osuID;
     }
 
     public void setCode(String code) {
@@ -21,8 +23,20 @@ public class osuUser {
         this.qq = qq;
     }
 
+    public void setOsuID(String osuID) {
+        this.osuID = osuID;
+    }
+
     public String getCode() {
         return code;
+    }
+
+    public String getQQ() {
+        return qq;
+    }
+
+    public String getOsuID() {
+        return osuID;
     }
 
     @Override
@@ -30,6 +44,7 @@ public class osuUser {
         return "key{" +
                 "code:" + code +
                 "qq:" + qq +
+                "osuID:" + osuID +
                 "}";
     }
 
