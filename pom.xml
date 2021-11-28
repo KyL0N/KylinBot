@@ -53,6 +53,14 @@
             <artifactId>log4j-core</artifactId>
             <version>2.14.1</version>
         </dependency>
+        <!--MySql connector-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <!--mysql version on my server is 5.7.36-->
+            <!--and i dont wanna the connector version to be higher than server's mysql ver-->
+            <version>5.1.45</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -9,6 +9,7 @@ import love.forte.simbot.core.SimbotContext;
 import love.forte.simbot.core.SimbotProcess;
 import org.jetbrains.annotations.NotNull;
 import top.kylinbot.demo.controller.httpServer;
+import top.kylinbot.demo.controller.mysqlServer;
 import top.kylinbot.demo.modle.osuUser;
 
 import java.io.IOException;
@@ -18,8 +19,12 @@ import static top.kylinbot.demo.listener.listenerdemo.getR18;
 
 @SimbotApplication
 public class KylinBotApplication implements SimbotProcess {
+
     public static void main(String[] args) {
         SimbotApp.run(KylinBotApplication.class, args);
+        System.out.println("mysql test start");
+        mysqlServer sql = new mysqlServer();
+        System.out.println("mysql test end");
     }
 
     @Override
