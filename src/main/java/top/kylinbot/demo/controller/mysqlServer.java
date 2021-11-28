@@ -1,15 +1,12 @@
 package top.kylinbot.demo.controller;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class mysqlServer {
-    public mysqlServer(){
+
+    public mysqlServer() {
         String url = "jdbc:mysql://localhost:3306/osuDB?useSSL=false";
         String user = "admin";
         String password = "admin0";
@@ -23,12 +20,14 @@ public class mysqlServer {
             if (rs.next()) {
 
                 System.out.println(rs.getString(1));
-                System.out.println("mysql test success");
+                System.out.println("Success");
             }
 
         } catch (SQLException ex) {
+                System.out.println("Failed");
 //            Logger lgr = Logger.getLogger(JdbcMySQLVersion.class.getName());
 //            lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
+
 }

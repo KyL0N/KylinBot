@@ -21,10 +21,10 @@ import static top.kylinbot.demo.listener.listenerdemo.getR18;
 public class KylinBotApplication implements SimbotProcess {
 
     public static void main(String[] args) {
-        SimbotApp.run(KylinBotApplication.class, args);
-        System.out.println("mysql test start");
-        mysqlServer sql = new mysqlServer();
-        System.out.println("mysql test end");
+//        SimbotApp.run(KylinBotApplication.class, args);
+        System.out.println("test mysql start");
+        mysqlServer mysql = new mysqlServer();
+        System.out.println("test mysql end");
     }
 
     @Override
