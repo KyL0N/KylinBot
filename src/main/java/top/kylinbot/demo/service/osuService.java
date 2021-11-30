@@ -9,6 +9,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import top.kylinbot.demo.modle.osuUser;
+import top.kylinbot.demo.util.mysqlUtil;
 
 import java.util.Collections;
 
@@ -55,14 +56,16 @@ public class osuService extends RestTemplate {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(body, headers);
         JSONObject s = postForObject(url, httpEntity, JSONObject.class);
-//        binUser.setAccessToken(s.getString("access_token"));
-//        binUser.setRefreshToken(s.getString("refresh_token"));
-//        binUser.nextTime(s.getLong("expires_in"));
-//        try {
-//            BindingUtil.writeUser(binUser);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+        user.setAccessToken(s.getString("access_token"));
+        user.setRefreshToken(s.getString("refresh_token"));
+        user.setExpire(s.getLong("expires_in"));
+        user.setOsuID("unknown ID");
+
+        mysqlUtil.writeUser(user);
+        System.out.println(s.toString());
         return s;
     }
+
+
 }

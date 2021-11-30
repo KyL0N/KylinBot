@@ -18,8 +18,7 @@ public class mysqlServer {
              ResultSet rs = st.executeQuery(query)) {
 
             if (rs.next()) {
-                System.out.println(rs.getString(1));
-                System.out.println("Success");
+                System.out.println("Success enter mysql\nversion:"+rs.getString(1));
             }
 
         } catch (SQLException ex) {
@@ -41,12 +40,19 @@ public class mysqlServer {
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(query)) {
             if (rs.next()) {
+                int qq = Integer.parseInt(rs.getString(1));
+                String osuID = rs.getString(2);
+                String token = rs.getString(3);
+
+                osuUser.setQQ(qq);
+                osuUser.setCode(token);
+                osuUser.setOsuID(osuID);
                 //获取第一列qq
-                System.out.println("qq:"+rs.getString(1));
+                System.out.println("qq:" + qq);
                 //获取第二列osuID
-                System.out.println("osuID"+rs.getString(2));
+                System.out.println("osuID:" + osuID);
                 //获取第三列token
-                System.out.println("token:"+rs.getString(3));
+                System.out.println("token:" + token);
 
                 System.out.println("Success");
 //                return rs.getString(1);
@@ -57,5 +63,7 @@ public class mysqlServer {
         }
 //        return null;
     }
+
+
 
 }

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import top.kylinbot.demo.controller.httpServer;
 import top.kylinbot.demo.controller.mysqlServer;
 import top.kylinbot.demo.modle.osuUser;
+import top.kylinbot.demo.util.mysqlUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -22,11 +23,7 @@ public class KylinBotApplication implements SimbotProcess {
 
     public static void main(String[] args) {
 //        SimbotApp.run(KylinBotApplication.class, args);
-        System.out.println("test mysql start");
-        mysqlServer mysql = new mysqlServer();
-        osuUser user = new osuUser(null,null,null);
-        mysql.getUserCode(user);
-        System.out.println("test mysql end");
+        mysqlUtil.testConnect();
     }
 
     @Override
@@ -34,7 +31,7 @@ public class KylinBotApplication implements SimbotProcess {
         Bot bot = context.getBotManager().getDefaultBot();
         BotSender sender = bot.getSender();
         sender.SENDER.sendPrivateMsg(1579525246, "Bot is started\n" + LocalDateTime.now());
-        sender.SENDER.sendGroupMsg(278134001, "Bot is started\n r18:"+ getR18());
+        sender.SENDER.sendGroupMsg(278134001, "Bot is started\n r18:" + getR18());
     }
 
     @Override
@@ -42,7 +39,7 @@ public class KylinBotApplication implements SimbotProcess {
 
     }
 
-    public static int bindServer(Integer port, osuUser user){
+    public static int bindServer(Integer port, osuUser user) {
         try {
             httpServer t = new httpServer(port);
             return t.Run(user);

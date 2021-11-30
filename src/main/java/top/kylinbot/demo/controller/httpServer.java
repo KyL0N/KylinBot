@@ -31,6 +31,7 @@ public class httpServer {
             System.out.println("Socket timed out!");
             return 1;
         } catch (IOException e) {
+            System.out.println("Socket timed out!");
             e.printStackTrace();
             return 1;
         }
