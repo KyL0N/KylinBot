@@ -21,7 +21,7 @@ git clone https://github.com/KyL0N/KylinBot.git
 ## Usage
 
 - 配置文件
-打开文件夹 [src/main/](src/main/resources/) 并创建一个名为simbot-bots的文件夹, 在文件夹中创建`yourBot1.bot`文件, 填入
+打开文件夹 [src/main/](src/main/resources) 并创建一个名为simbot-bots的文件夹, 在文件夹中创建`yourBot1.bot`文件, 填入
 
 
 ```yaml
@@ -37,7 +37,7 @@ password=QQ密码
 
 - 运行
 
-  执行[SimbotExampleApplication](src/main/java/top/kylinbot/demo/SimbotExampleApplication.java) 中的main方法
+  执行[KylinBotApplication](src/main/java/top/kylinbot/demo/KylinBotApplication.java) 中的main方法
 
 ## TODO
 1. - [ ] 完成基本框架
