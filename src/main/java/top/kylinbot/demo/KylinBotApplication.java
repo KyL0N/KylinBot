@@ -22,8 +22,8 @@ import static top.kylinbot.demo.listener.listenerdemo.getR18;
 public class KylinBotApplication implements SimbotProcess {
 
     public static void main(String[] args) {
-//        SimbotApp.run(KylinBotApplication.class, args);
-        mysqlUtil.testConnect();
+        SimbotApp.run(KylinBotApplication.class, args);
+//        mysqlUtil.testConnect();
     }
 
     @Override

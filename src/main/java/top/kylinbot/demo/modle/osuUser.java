@@ -70,9 +70,9 @@ public class osuUser {
     @Override
     public String toString() {
         return "key{" +
-                "code:" + code +
                 "qq:" + qq +
                 "osuID:" + osuID +
+                "code:" + code +
                 "}";
     }
 

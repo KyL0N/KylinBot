@@ -28,14 +28,11 @@ public class mysqlServer {
         }
     }
 
-    public void getUserCode(osuUser osuUser) {
+    public String getUserCode(osuUser osuUser) {
         String url = "jdbc:mysql://localhost:3306/osuDB?useSSL=false";
         String user = "admin";
         String password = "admin0";
-//        String query = "SELECT INSERT INTO osuUer(" +
-//                osuUser.getQQ() + "," + osuUser.getOsuID() + "," + osuUser.getCode() +
-//                ");";
-        String query = "SELECT * FROM osuUser;";
+        String query = "SELECT * FROM osu WHERE qq = '" + osuUser.getQQ() + "'";
         try (Connection con = DriverManager.getConnection(url, user, password);
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(query)) {
@@ -55,13 +52,13 @@ public class mysqlServer {
                 System.out.println("token:" + token);
 
                 System.out.println("Success");
-//                return rs.getString(1);
+                return rs.getString(3);
             }
         } catch (SQLException ex) {
             System.out.println("Failed");
 
         }
-//        return null;
+        return null;
     }
 
 

@@ -42,7 +42,7 @@ public class osuService extends RestTemplate {
      * @param user 传入user信息
      * @return 返回得到的JSON以便下次处理
      */
-    public JSONObject getToken(osuUser user) {
+    public osuUser getToken(osuUser user) {
         String url = "https://osu.ppy.sh/oauth/token";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -62,9 +62,9 @@ public class osuService extends RestTemplate {
         user.setExpire(s.getLong("expires_in"));
         user.setOsuID("unknown ID");
 
-        mysqlUtil.writeUser(user);
-        System.out.println(s.toString());
-        return s;
+        System.out.println(user.toString());
+//        System.out.println(query);
+        return user;
     }
 
 
