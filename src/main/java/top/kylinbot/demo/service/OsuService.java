@@ -46,7 +46,7 @@ public class OsuService extends RestTemplate {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_FORM_URLENCODED));
-        MultiValueMap<String,Object> body = new LinkedMultiValueMap();
+        MultiValueMap<String,Object> body = new LinkedMultiValueMap<>();
         body.add("client_id", oauthId);
         body.add("client_secret", oauthToken);
         body.add("code", user.getCode());
@@ -62,12 +62,11 @@ public class OsuService extends RestTemplate {
             user.setExpire(s.getLong("expires_in"));
             user.setOsuID("unknown ID");
         }
-
-
-        System.out.println(user.toString());
-//        System.out.println(query);
+        System.out.println(user);
         return user;
     }
+
+
 
 
 }

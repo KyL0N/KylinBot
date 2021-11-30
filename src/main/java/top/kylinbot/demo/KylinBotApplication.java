@@ -8,13 +8,11 @@ import love.forte.simbot.core.SimbotApp;
 import love.forte.simbot.core.SimbotContext;
 import love.forte.simbot.core.SimbotProcess;
 import org.jetbrains.annotations.NotNull;
-import top.kylinbot.demo.controller.HttpServer;
-import top.kylinbot.demo.modle.osuUser;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
-import static top.kylinbot.demo.listener.listenerdemo.getR18;
+import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
+
 
 @SimbotApplication
 public class KylinBotApplication implements SimbotProcess {

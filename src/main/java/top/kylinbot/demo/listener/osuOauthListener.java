@@ -21,7 +21,7 @@ public class osuOauthListener extends OsuService {
 
     @OnPrivate
     @Filter(value = "!oauth", trim = true, matchType = MatchType.EQUALS)
-    public void sendOauth(PrivateMsg privateMsg, MsgSender sender) throws IOException {
+    public void sendOauth(PrivateMsg privateMsg, MsgSender sender) {
         int accountCode = Integer.parseInt(privateMsg.getAccountInfo().getAccountCode());
         String url = getOauthUrl(privateMsg.getAccountInfo().getAccountCode());
         sender.SENDER.sendPrivateMsg(accountCode, url);
