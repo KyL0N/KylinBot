@@ -1,7 +1,6 @@
 package top.kylinbot.demo.service;
 
 import catcode.CatCodeUtil;
-import catcode.CatEncoder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -35,6 +34,11 @@ public class NsfwService {
         String urls = parseJson(string);
 //        String urlEncoded = CatEncoder.getInstance().encodeParams(urls);
         CatCodeUtil util = CatCodeUtil.INSTANCE;
+        if (isPri) {
+            if (getR18() == 1) {
+                return "由于腾讯风险控制, 链接请自行查看: \n" + urls;
+            }
+        }
         return util.getStringTemplate().image(urls);
     }
 
@@ -45,24 +49,21 @@ public class NsfwService {
     public String parseJson(String string) {
         JSONObject jsonObject = JSON.parseObject(string);
         JSONArray data = jsonObject.getJSONArray("data");
-
-//        String pid = data.getJSONObject(0).getString("pid");
+        String r18 = data.getJSONObject(0).getString("r18");
         String uid = data.getJSONObject(0).getString("uid");
+        String url = data.getJSONObject(0).getJSONObject("urls").getString("regular");
+//        String pid = data.getJSONObject(0).getString("pid");
 //        String title = data.getJSONObject(0).getString("title");
 //        String author = data.getJSONObject(0).getString("author");
-        String r18 = data.getJSONObject(0).getString("r18");
 //        String width = data.getJSONObject(0).getString("width");
 //        String height = data.getJSONObject(0).getString("height");
-        //TODO:TAGS
 //        String ext = data.getJSONObject(0).getString("ext");
 //        String uploadDate = data.getJSONObject(0).getString("uploadDate");
-
-        String url = data.getJSONObject(0).getJSONObject("urls").getString("regular");
 //        String url = urls.getString("original");
-
-
+        //TODO:TAGS
         System.out.println("uid:" + uid);
         System.out.println("url:" + url);
+        System.out.println("r18:" + r18);
         //i.pixiv.cat现以被墙, i.pixiv.re可正常使用
         return url.replace(".cat", ".re");
     }

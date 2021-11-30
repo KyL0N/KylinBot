@@ -57,7 +57,6 @@ public class NsfwPhotoListener extends NsfwService {
     }
 
 
-
     @OnPrivate
     @Filter(value = "!r18 on", trim = true, matchType = MatchType.EQUALS)
     public void setR18(PrivateMsg privateMsg, MsgSender sender) {
