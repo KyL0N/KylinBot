@@ -20,10 +20,9 @@ import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 public class NsfwService {
 
     public String getCatCodeFromApi(Boolean isPri) throws IOException {
-        Boolean pri = isPri;
         HttpClient client = HttpClients.createDefault();
         String url = "https://api.lolicon.app/setu/v2?size=regular";
-        if (pri = true) {
+        if (isPri) {
             if (getR18() == 1) {
                 url = url + "&r18=1";
             }
