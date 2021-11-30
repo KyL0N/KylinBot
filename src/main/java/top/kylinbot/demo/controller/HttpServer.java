@@ -7,36 +7,53 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
-public class httpServer {
+public class HttpServer implements Runnable {
 
     private ServerSocket serverSocket;
 
-    public httpServer(int port) throws IOException {
+    public HttpServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
-//        serverSocket.setSoTimeout(10000);
         System.out.println("Server端口" + port + "将一直等待你的到来");
     }
 
     public int Run(osuUser user) {
-//        while (isGetCode) {
+
         try {
             System.out.println("等待远程连接，端口号为：" + serverSocket.getLocalPort() + "...");
             Socket server = serverSocket.accept();
             System.out.println("远程主机地址：" + server.getRemoteSocketAddress());
             HttpRequestHandler request = new HttpRequestHandler(server);
             user.setCode(request.handle());
+            //关闭socket连接
             server.close();
+            //关闭ServerSocket监听
+            serverSocket.close();
             return 0;
         } catch (SocketTimeoutException s) {
             System.out.println("Socket timed out!");
+
             return 1;
         } catch (IOException e) {
             System.out.println("Socket timed out!");
             e.printStackTrace();
             return 1;
         }
+
     }
-//    }
+
+    @Override
+    public void run() {
+
+    }
+
+    public void stop(){
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 class HttpRequestHandler {

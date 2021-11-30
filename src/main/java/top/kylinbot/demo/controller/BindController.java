@@ -3,7 +3,7 @@ package top.kylinbot.demo.controller;
 
 //@RequestMapping("/product")
 //@RestController
-public class bindController {
+public class BindController {
 //
 //    @GetMapping("/get_product1")
 //    public Bind getBind(){

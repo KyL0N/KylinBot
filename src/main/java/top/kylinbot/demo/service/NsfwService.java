@@ -15,7 +15,7 @@ import java.io.IOException;
 
 import static top.kylinbot.demo.listener.listenerdemo.getR18;
 
-public class nsfwService {
+public class NsfwService {
 
     public String getCodeFromApi() throws IOException {
         HttpClient client = HttpClients.createDefault();

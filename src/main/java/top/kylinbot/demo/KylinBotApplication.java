@@ -8,10 +8,8 @@ import love.forte.simbot.core.SimbotApp;
 import love.forte.simbot.core.SimbotContext;
 import love.forte.simbot.core.SimbotProcess;
 import org.jetbrains.annotations.NotNull;
-import top.kylinbot.demo.controller.httpServer;
-import top.kylinbot.demo.controller.mysqlServer;
+import top.kylinbot.demo.controller.HttpServer;
 import top.kylinbot.demo.modle.osuUser;
-import top.kylinbot.demo.util.mysqlUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -37,17 +35,5 @@ public class KylinBotApplication implements SimbotProcess {
     @Override
     public void pre(@NotNull Configuration config) {
 
-    }
-
-    public static int bindServer(Integer port, osuUser user) {
-        try {
-            httpServer t = new httpServer(port);
-            return t.Run(user);
-        } catch (IOException e) {
-//            System.out.println("失败\n");
-            e.printStackTrace();
-        }
-//        System.out.println("创建完成\n");
-        return 1;
     }
 }

@@ -7,25 +7,28 @@ import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
-import top.kylinbot.demo.controller.mysqlServer;
+import top.kylinbot.demo.controller.MysqlServer;
 import top.kylinbot.demo.modle.osuUser;
-import top.kylinbot.demo.service.osuService;
-import top.kylinbot.demo.util.mysqlUtil;
+import top.kylinbot.demo.service.OsuBindService;
+import top.kylinbot.demo.service.OsuService;
+import top.kylinbot.demo.util.MysqlUtil;
 
-import static top.kylinbot.demo.KylinBotApplication.bindServer;
+import java.io.IOException;
+
 
 @Beans
-public class osuOauthListener extends osuService {
+public class osuOauthListener extends OsuService {
 
     @OnPrivate
     @Filter(value = "!oauth", trim = true, matchType = MatchType.EQUALS)
-    public void sendOauth(PrivateMsg privateMsg, MsgSender sender) {
+    public void sendOauth(PrivateMsg privateMsg, MsgSender sender) throws IOException {
         int accountCode = Integer.parseInt(privateMsg.getAccountInfo().getAccountCode());
         String url = getOauthUrl(privateMsg.getAccountInfo().getAccountCode());
         sender.SENDER.sendPrivateMsg(accountCode, url);
         osuUser user = new osuUser(accountCode, null, null, null, null, 0);
-        if (bindServer(8888, user) == 0) {
-            mysqlUtil.writeUser(getToken(user));
+
+        if (OsuBindService.bindServer(8888, user) == 0) {
+            MysqlUtil.writeUser(getToken(user));
             sender.SENDER.sendPrivateMsg(accountCode, "绑定成功");
             sender.SENDER.sendPrivateMsg(accountCode, "帐户详细:" + "\nqq:" + user.getQQ() + "\nID:" + user.getOsuID() + "\naccessToken:" + user.getRefreshToken());
         } else {
@@ -38,12 +41,12 @@ public class osuOauthListener extends osuService {
     @Filter(value = "!token", trim = true, matchType = MatchType.EQUALS)
     public void sendToken(PrivateMsg privateMsg, MsgSender sender) {
         int accountCode = Integer.parseInt(privateMsg.getAccountInfo().getAccountCode());
-        mysqlServer sql = new mysqlServer();
+        MysqlServer sql = new MysqlServer();
         osuUser user = new osuUser(accountCode, null, null, null, null, 0);
 
 //        JSONObject token = getToken();
         sender.SENDER.sendPrivateMsg(accountCode, "你的token:" + sql.getUserCode(user));
-        sender.SENDER.sendPrivateMsg(accountCode, user.toString());
+//        sender.SENDER.sendPrivateMsg(accountCode, user.toString());
     }
 
 }

@@ -1,9 +1,6 @@
 package top.kylinbot.demo.listener;
 
 import catcode.CatCodeUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
@@ -12,13 +9,7 @@ import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import top.kylinbot.demo.service.nsfwService;
+import top.kylinbot.demo.service.NsfwService;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -29,7 +20,7 @@ import java.util.Enumeration;
 
 
 @Beans
-public class listenerdemo extends nsfwService {
+public class listenerdemo extends NsfwService {
     private static final String IMG_PATH = "~/target/photo_2021-11-20_17-19-12.jpg";
     private static int r18 = 0;
 

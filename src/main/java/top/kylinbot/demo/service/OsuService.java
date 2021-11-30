@@ -9,11 +9,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import top.kylinbot.demo.modle.osuUser;
-import top.kylinbot.demo.util.mysqlUtil;
 
 import java.util.Collections;
 
-public class osuService extends RestTemplate {
+public class OsuService extends RestTemplate {
 
     private int oauthId = 11065;
     private String redirectUrl = "http://kyl1n.top:8888";
@@ -47,7 +46,7 @@ public class osuService extends RestTemplate {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_FORM_URLENCODED));
-        MultiValueMap body = new LinkedMultiValueMap();
+        MultiValueMap<String,Object> body = new LinkedMultiValueMap();
         body.add("client_id", oauthId);
         body.add("client_secret", oauthToken);
         body.add("code", user.getCode());
@@ -57,10 +56,13 @@ public class osuService extends RestTemplate {
         HttpEntity<?> httpEntity = new HttpEntity<>(body, headers);
         JSONObject s = postForObject(url, httpEntity, JSONObject.class);
 
-        user.setAccessToken(s.getString("access_token"));
-        user.setRefreshToken(s.getString("refresh_token"));
-        user.setExpire(s.getLong("expires_in"));
-        user.setOsuID("unknown ID");
+        if (s != null) {
+            user.setAccessToken(s.getString("access_token"));
+            user.setRefreshToken(s.getString("refresh_token"));
+            user.setExpire(s.getLong("expires_in"));
+            user.setOsuID("unknown ID");
+        }
+
 
         System.out.println(user.toString());
 //        System.out.println(query);

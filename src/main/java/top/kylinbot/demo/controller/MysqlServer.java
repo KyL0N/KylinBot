@@ -1,19 +1,16 @@
 package top.kylinbot.demo.controller;
 
 import top.kylinbot.demo.modle.osuUser;
+import top.kylinbot.demo.util.MysqlUtil;
 
 import java.sql.*;
 
-public class mysqlServer {
+public class MysqlServer {
 
-    public mysqlServer() {
-        String url = "jdbc:mysql://localhost:3306/osuDB?useSSL=false";
-        String user = "admin";
-        String password = "admin0";
-
+    public MysqlServer() {
         String query = "SELECT VERSION()";
 
-        try (Connection con = DriverManager.getConnection(url, user, password);
+        try (Connection con = MysqlUtil.getConnect();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(query)) {
 
@@ -23,17 +20,12 @@ public class mysqlServer {
 
         } catch (SQLException ex) {
             System.out.println("Failed");
-//            Logger lgr = Logger.getLogger(JdbcMySQLVersion.class.getName());
-//            lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
     public String getUserCode(osuUser osuUser) {
-        String url = "jdbc:mysql://localhost:3306/osuDB?useSSL=false";
-        String user = "admin";
-        String password = "admin0";
         String query = "SELECT * FROM osu WHERE qq = '" + osuUser.getQQ() + "'";
-        try (Connection con = DriverManager.getConnection(url, user, password);
+        try (Connection con = MysqlUtil.getConnect();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(query)) {
             if (rs.next()) {
