@@ -1,6 +1,9 @@
 # KylinBot
 
-[![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/) [![](https://img.shields.io/badge/Language-English-green)](https://github.com/KyL0N/KylinBot/blob/main/README.md)
+[![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+
+English Readme: [![](https://img.shields.io/badge/Language-English-green)](https://github.com/KyL0N/KylinBot/blob/main/README.md)
 
 
 这是基于[simple-robot](https://github.com/ForteScarlet/simpler-robot) 框架使用[mirai组件](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai)对接[Mirai](https://github.com/mamoe/mirai) 的Demo项目。
@@ -38,7 +41,8 @@ password=QQ密码
 
 ## TODO
 1. - [ ] 完成基本框架
-2. - [ ] 安卓端
+2. - [ ] 日麻何切
+3. - [ ] 安卓端
 
 ## Contributing
 
@@ -48,5 +52,4 @@ PRs accepted.
 
 **Apache 2.0 License**
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 

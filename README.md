@@ -1,7 +1,8 @@
 # KylinBot
 
-[![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/) [![](https://img.shields.io/badge/%E8%AF%AD%E8%A8%80-%E4%B8%AD%E6%96%87-green)](https://github.com/KyL0N/KylinBot/blob/main/README.zh-CN.md) 
+[![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/) 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+中文Readme:[![](https://img.shields.io/badge/%E8%AF%AD%E8%A8%80-%E4%B8%AD%E6%96%87-green)](https://github.com/KyL0N/KylinBot/blob/main/README.zh-CN.md)
 
 This project is  based on [simple-robot](https://github.com/ForteScarlet/simpler-robot) which framework use [mirai component ](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai)to [Mirai](https://github.com/mamoe/mirai) 's demo project
 
@@ -40,7 +41,8 @@ password=yourQQpasswd
 
 ## TODO
 1. - [ ] Complete Basic Func 
-2. - [ ] Android Client
+2. - [ ] What tiles to cut in Japanese Mahjong
+3. - [ ] Android Client
 
 ## Contributing
 
