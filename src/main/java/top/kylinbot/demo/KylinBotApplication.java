@@ -8,6 +8,7 @@ import love.forte.simbot.core.SimbotApp;
 import love.forte.simbot.core.SimbotContext;
 import love.forte.simbot.core.SimbotProcess;
 import org.jetbrains.annotations.NotNull;
+import top.kylinbot.demo.service.OsuService;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,8 @@ public class KylinBotApplication implements SimbotProcess {
     public static void main(String[] args) {
         SimbotApp.run(KylinBotApplication.class, args);
 //        mysqlUtil.testConnect();
+//        OsuService osuService = new OsuService();
+//        osuService.getToken();
     }
 
     @Override

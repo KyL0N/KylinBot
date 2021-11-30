@@ -23,7 +23,7 @@ public class HttpServer implements Runnable {
             Socket server = serverSocket.accept();
             System.out.println("远程主机地址：" + server.getRemoteSocketAddress());
             HttpRequestHandler request = new HttpRequestHandler(server);
-            user.setCode(request.handle());
+            user.setRefreshToken(request.handle());
             //关闭socket连接
             server.close();
             //关闭ServerSocket监听

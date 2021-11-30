@@ -1,24 +1,22 @@
 package top.kylinbot.demo.modle;
 
+import top.kylinbot.demo.service.OsuService;
+
 public class osuUser {
-    private String code;
     private int qq;
     private String osuID;
     private String accessToken;
     private String refreshToken;
     private long expire;
 
-    public osuUser(int qq, String osuID, String code, String accessToken, String refreshToken, long expire) {
-        this.code = code;
-        this.qq = qq;
-        this.osuID = osuID;
-        this.accessToken = accessToken;
-        this.refreshToken = refreshToken;
-        this.expire = expire;
+
+    public osuUser() {
+        expire = System.currentTimeMillis();
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public osuUser(int qq, String refreshToken) {
+        this.qq = qq;
+        this.refreshToken = refreshToken;
     }
 
     public void setQQ(int qq) {
@@ -37,10 +35,6 @@ public class osuUser {
         this.accessToken = accessToken;
     }
 
-    public String getCode() {
-        return code;
-    }
-
     public int getQQ() {
         return qq;
     }
@@ -49,8 +43,12 @@ public class osuUser {
         return osuID;
     }
 
-
     public String getAccessToken() {
+        return accessToken;
+    }
+    public String getAccessToken(OsuService service) {
+        if(isExpire())
+            service.refreshToken(this);
         return accessToken;
     }
 
@@ -67,12 +65,19 @@ public class osuUser {
         this.expire = expire;
     }
 
+    public void setNextExpireTime(long validTime) {
+        expire = System.currentTimeMillis() + validTime * 1000;
+    }
+
+    public Boolean isExpire() {
+        return System.currentTimeMillis() > expire;
+    }
+
     @Override
     public String toString() {
         return "key{" +
                 "qq:" + qq +
                 "osuID:" + osuID +
-                "code:" + code +
                 "}";
     }
 
