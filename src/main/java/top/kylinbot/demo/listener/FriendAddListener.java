@@ -27,6 +27,7 @@ public class FriendAddListener {
     @OnFriendIncrease
     public void welcomeNewFriend(FriendIncrease friendIncrease, Sender sender) {
         sender.sendPrivateMsg(friendIncrease.getAccountInfo().getAccountCode(), "hello im Asagodness");
+        sender.sendPrivateMsg(1579525246, friendIncrease.getAccountInfo() + " add friend");
     }
 
 
