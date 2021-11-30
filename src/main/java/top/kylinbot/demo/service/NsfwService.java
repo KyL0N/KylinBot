@@ -1,6 +1,7 @@
 package top.kylinbot.demo.service;
 
 import catcode.CatCodeUtil;
+import catcode.CatEncoder;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -13,22 +14,25 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
-import static top.kylinbot.demo.listener.listenerdemo.getR18;
+import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
+
 
 public class NsfwService {
 
-    public String getCodeFromApi() throws IOException {
+    public String getCatCodeFromApi(Boolean isPri) throws IOException {
+        Boolean pri = isPri;
         HttpClient client = HttpClients.createDefault();
         String url = "https://api.lolicon.app/setu/v2?size=regular";
-        if (getR18() == 1) {
-            url = url + "&r18=1";
+        if (pri = true) {
+            if (getR18() == 1) {
+                url = url + "&r18=1";
+            }
         }
         url = url + "&r18=0";
         HttpGet get = new HttpGet(url);
         HttpResponse response = client.execute(get);
         HttpEntity entity = response.getEntity();
         String string = EntityUtils.toString(entity);
-        System.out.println(string);
         String urls = parseJson(string);
 //        String urlEncoded = CatEncoder.getInstance().encodeParams(urls);
         CatCodeUtil util = CatCodeUtil.INSTANCE;
@@ -58,11 +62,9 @@ public class NsfwService {
 //        String url = urls.getString("original");
 
 
-//        System.out.println("pid:" + pid);
         System.out.println("uid:" + uid);
-//        System.out.println("title:" + title);
-//        System.out.println("author:" + author);
         System.out.println("url:" + url);
+        //i.pixiv.cat现以被墙, i.pixiv.re可正常使用
         return url.replace(".cat", ".re");
     }
 

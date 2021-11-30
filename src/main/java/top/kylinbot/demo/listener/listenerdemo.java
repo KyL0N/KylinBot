@@ -21,30 +21,7 @@ import java.util.Enumeration;
 
 @Beans
 public class listenerdemo extends NsfwService {
-    private static final String IMG_PATH = "~/target/photo_2021-11-20_17-19-12.jpg";
-    private static int r18 = 0;
 
-    public static int getR18() {
-        return r18;
-    }
-
-    @OnGroup
-    @Filter(value = "!r18 on", trim = true, matchType = MatchType.EQUALS)
-    public void setR18(GroupMsg groupMsg, MsgSender sender) {
-        r18 = 1;
-//        sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), "now r18 is on:" + getR18());
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "now r18 is on:" + getR18());
-
-    }
-
-    @OnGroup
-    @Filter(value = "!r18 off", trim = true, matchType = MatchType.EQUALS)
-    public void offR18(GroupMsg groupMsg, MsgSender sender) {
-        r18 = 0;
-//        sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), "now r18 is off:" + getR18());
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "now r18 is off:" + getR18());
-
-    }
 
 
     @OnGroup
@@ -89,32 +66,7 @@ public class listenerdemo extends NsfwService {
         );
     }
 
-    @OnGroup
-    @Filter(value = "show me the photo", trim = true, matchType = MatchType.STARTS_WITH)
-    public void sendImg(GroupMsg msg, MsgSender sender) {
-        CatCodeUtil util = CatCodeUtil.INSTANCE;
-        String image = util.getStringTemplate().image(IMG_PATH);
-        sender.SENDER.sendGroupMsg(msg.getGroupInfo().getGroupCode(), image);
-    }
 
-
-    @OnGroup
-    @Filter(value = ".uestc", trim = true, matchType = MatchType.STARTS_WITH)
-    public void sendGroupPixivPic(GroupMsg groupMsg, MsgSender sender) throws IOException {
-//        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "url:" + urls);
-        String catCode1 = getCodeFromApi();
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), catCode1);
-
-    }
-
-
-    @OnPrivate
-    @Filter(value = ".uestc", trim = true, matchType = MatchType.STARTS_WITH)
-    public void sendPrivatePixivPic(PrivateMsg privateMsg, MsgSender sender) throws IOException {
-//        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "url:" + urls);
-        String catCode1 = getCodeFromApi();
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), catCode1);
-    }
 
 
 }
