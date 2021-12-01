@@ -38,7 +38,7 @@ public class MysqlUtil {
             String query = "INSERT INTO osuDB.osu VALUES ('" + osuPlayer.getQQ() + "','"
                     + osuPlayer.getOsuID() + "','" + osuPlayer.getAccessToken() + "','"
                     + osuPlayer.getRefreshToken() + "','" + osuPlayer.getExpire() + "')";
-            System.out.println(query);
+//            System.out.println(query);
             PreparedStatement st = con.prepareStatement(query);
             st.executeUpdate();
             System.out.println("executeSuccess");
@@ -73,7 +73,7 @@ public class MysqlUtil {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
-                System.out.println(rs.getString(1));
+//                System.out.println(rs.getString(1));
                 return rs.getString(1);
             }
         } catch (Exception e) {
