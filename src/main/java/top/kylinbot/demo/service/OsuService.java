@@ -1,7 +1,7 @@
 package top.kylinbot.demo.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import love.forte.simbot.core.configuration.ComponentBeans;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -16,6 +16,8 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Properties;
 
+
+@ComponentBeans
 public class OsuService extends RestTemplate {
     public static osuUser client = new osuUser();
     private static String oauthId;
@@ -32,7 +34,6 @@ public class OsuService extends RestTemplate {
             redirectUrl = props.getProperty("redirectUrl");
             oauthToken = props.getProperty("oauthToken");
             URL = props.getProperty("api");
-//            System.out.println(password);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,9 +56,8 @@ public class OsuService extends RestTemplate {
     /***
      * 初次得到授权令牌
      * @param user 传入user信息
-     * @return 返回得到的JSON以便下次处理
      */
-    public osuUser getToken(osuUser user) {
+    public void getToken(osuUser user) {
         String url = "https://osu.ppy.sh/oauth/token";
         HttpHeaders headers = setHttpHeader();
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -75,8 +75,6 @@ public class OsuService extends RestTemplate {
             user.setNextExpireTime(s.getLong("expires_in"));
             user.setOsuID("unknown ID");
         }
-        System.out.println(user);
-        return user;
     }
 
     /***
@@ -105,9 +103,8 @@ public class OsuService extends RestTemplate {
     /***
      * 刷新令牌
      * @param user 用户
-     * @return 返回得到的JSON数据
      */
-    public JSONObject refreshToken(osuUser user) {
+    public void refreshToken(osuUser user) {
         String url = "https://osu.ppy.sh/oauth/token";
         HttpHeaders headers = setHttpHeader();
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
@@ -123,7 +120,6 @@ public class OsuService extends RestTemplate {
         user.setRefreshToken(s.getString("refresh_token"));
         user.setNextExpireTime(s.getLong("expires_in"));
         MysqlUtil.writeUser(user);
-        return s;
     }
 
     public HttpHeaders setHttpHeader() {
@@ -133,10 +129,11 @@ public class OsuService extends RestTemplate {
         return headers;
     }
 
+
     /***
      * 使用用户refreshToken获取ID以及NickName
-     * @param user
-     * @return
+     * @param user 需要查询的用户
+     * @return 各个模式的JSON信息
      */
     public JSONObject getPlayerOsuInfo(osuUser user) {
         return getPlayerInfo(user, "osu");
@@ -155,13 +152,12 @@ public class OsuService extends RestTemplate {
     }
 
     public JSONObject getPlayerInfo(osuUser user, String mode) {
-        String url = this.URL + "me" + '/' + mode;
+        String url = URL + "me" + '/' + mode;
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + user.getAccessToken(this));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_FORM_URLENCODED));
-        HttpEntity httpEntity = new HttpEntity(headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONObject> c = exchange(url, HttpMethod.GET, httpEntity, JSONObject.class);
         user.setOsuID(c.getBody().getString("username"));
 //        user.setOsuName(c.getBody().getString("username"));
@@ -170,8 +166,8 @@ public class OsuService extends RestTemplate {
 
     /***
      * 使用client的refreshToken获取user信息
-     * @param id
-     * @return
+     * @param id 用户ID数值
+     * @return 返回用户信息
      */
     public JSONObject getPlayerOsuInfo(int id) {
         return getPlayerInfo(id, "osu");
@@ -190,24 +186,23 @@ public class OsuService extends RestTemplate {
     }
 
     public JSONObject getPlayerInfo(int id, String mode) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(this.URL + "users/" + id + '/' + mode)
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + id + '/' + mode)
                 .queryParam("key", "id")
                 .build().encode().toUri();
         HttpHeaders headers = new HttpHeaders();
-
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Bearer " + getToken());
 
-        HttpEntity httpEntity = new HttpEntity(headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONObject> c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
         return c.getBody();
     }
 
     /***
      * 使用Client的refreshToken获取user信息
-     * @param name
-     * @return
+     * @param name osu用户名, 用于查询未绑定用户信息
+     * @return 返回用户信息
      */
     public JSONObject getPlayerOsuInfo(String name) {
         return getPlayerInfo(name, "osu");
@@ -222,7 +217,7 @@ public class OsuService extends RestTemplate {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Bearer " + getToken());
 
-        HttpEntity httpEntity = new HttpEntity(headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONObject> c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
         return c.getBody();
     }

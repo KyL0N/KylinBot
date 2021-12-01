@@ -1,6 +1,8 @@
 package top.kylinbot.demo.listener;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnPrivate;
@@ -10,6 +12,7 @@ import love.forte.simbot.filter.MatchType;
 import top.kylinbot.demo.modle.osuUser;
 import top.kylinbot.demo.service.OsuBindService;
 import top.kylinbot.demo.service.OsuService;
+import top.kylinbot.demo.util.JsonUtil;
 import top.kylinbot.demo.util.MysqlUtil;
 
 
@@ -54,9 +57,9 @@ public class OsuOauthListener extends OsuService {
     public void sendPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
         String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
-        String testInfo = getPlayerOsuInfo(osuNickName).toString();
-        System.out.println(testInfo);
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "testInfo:\n" + testInfo);
+        JSONObject testInfo = getPlayerOsuInfo(osuNickName);
+        String info = JsonUtil.parseOsuInfoJson(testInfo);
+        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), info);
     }
 
 }

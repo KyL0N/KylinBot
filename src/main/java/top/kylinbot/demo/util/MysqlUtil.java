@@ -21,7 +21,6 @@ public class MysqlUtil {
             url = props.getProperty("MysqlUrl");
             user = props.getProperty("MysqlUser");
             password = props.getProperty("MysqlPassword");
-            System.out.println(password);
         } catch (IOException e) {
             e.printStackTrace();
         }
