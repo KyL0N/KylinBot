@@ -40,9 +40,10 @@ password=yourQQpasswd
   run main function in[KylinBotApplication](src/main/java/top/kylinbot/demo/KylinBotApplication.java)
 
 ## TODO
-1. - [ ] Complete Basic Func 
+1. - [ ] Complete Basic Func
 2. - [ ] What tiles to cut in Japanese Mahjong
 3. - [ ] Android Client
+4. - [ ] JPA to reconstruct project
 
 ## Contributing
 
