@@ -61,12 +61,6 @@
             <!--and i dont wanna the connector version to be higher than server's mysql ver-->
             <version>5.1.45</version>
         </dependency>
-        <!--Compress image-->
-        <dependency>
-            <groupId>net.coobird</groupId>
-            <artifactId>thumbnailator</artifactId>
-            <version>[0.4, 0.5)</version>
-        </dependency>
     </dependencies>
 
     <build>

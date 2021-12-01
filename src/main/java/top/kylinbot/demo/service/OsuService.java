@@ -10,16 +10,33 @@ import org.springframework.web.util.UriComponentsBuilder;
 import top.kylinbot.demo.modle.osuUser;
 import top.kylinbot.demo.util.MysqlUtil;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Collections;
+import java.util.Properties;
 
 public class OsuService extends RestTemplate {
     public static osuUser client = new osuUser();
-    private int oauthId = 11065;
-    private String redirectUrl = "http://kyl1n.top:8888";
-    private String oauthToken = "8AqhvAXdFarhQUUmJYkx7tYAk23Z1IB54AJi2Adm";
-    private String URL = "https://osu.ppy.sh/api/v2/";
-    private String AccessToken = null;
+    private static String oauthId;
+    private static String redirectUrl;
+    private static String oauthToken;
+    private static String URL;
+
+    static {
+        try {
+            Properties props = new Properties();
+            InputStream inputStream = MysqlUtil.class.getClassLoader().getResourceAsStream("KylinBot.properties");
+            props.load(inputStream);
+            oauthId = props.getProperty("oauthID");
+            redirectUrl = props.getProperty("redirectUrl");
+            oauthToken = props.getProperty("oauthToken");
+            URL = props.getProperty("api");
+//            System.out.println(password);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /***
      * 拼合授权链接
@@ -117,17 +134,22 @@ public class OsuService extends RestTemplate {
     }
 
     /***
-     * 拿到详细的个人信息
+     * 使用用户refreshToken获取ID以及NickName
      * @param user
      * @return
      */
-    public JSONObject getPlayerOsuInfo  (osuUser user) { return getPlayerInfo(user, "osu"); }
+    public JSONObject getPlayerOsuInfo(osuUser user) {
+        return getPlayerInfo(user, "osu");
+    }
+
     public JSONObject getPlayerTaikoInfo(osuUser user) {
         return getPlayerInfo(user, "taiko");
     }
+
     public JSONObject getPlayerCatchInfo(osuUser user) {
         return getPlayerInfo(user, "fruits");
     }
+
     public JSONObject getPlayerManiaInfo(osuUser user) {
         return getPlayerInfo(user, "mania");
     }
@@ -147,23 +169,25 @@ public class OsuService extends RestTemplate {
     }
 
     /***
-     * 使用client获取user信息
+     * 使用client的refreshToken获取user信息
      * @param id
      * @return
      */
     public JSONObject getPlayerOsuInfo(int id) {
         return getPlayerInfo(id, "osu");
     }
+
     public JSONObject getPlayerTaikoInfo(int id) {
         return getPlayerInfo(id, "taiko");
     }
+
     public JSONObject getPlayerCatchInfo(int id) {
         return getPlayerInfo(id, "fruits");
     }
+
     public JSONObject getPlayerManiaInfo(int id) {
         return getPlayerInfo(id, "mania");
     }
-
 
     public JSONObject getPlayerInfo(int id, String mode) {
         URI uri = UriComponentsBuilder.fromHttpUrl(this.URL + "users/" + id + '/' + mode)
@@ -181,7 +205,7 @@ public class OsuService extends RestTemplate {
     }
 
     /***
-     * 使用Client获取user信息
+     * 使用Client的refreshToken获取user信息
      * @param name
      * @return
      */
@@ -202,4 +226,6 @@ public class OsuService extends RestTemplate {
         ResponseEntity<JSONObject> c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
         return c.getBody();
     }
+
+
 }

@@ -7,13 +7,10 @@ import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
-import top.kylinbot.demo.controller.MysqlServer;
 import top.kylinbot.demo.modle.osuUser;
 import top.kylinbot.demo.service.OsuBindService;
 import top.kylinbot.demo.service.OsuService;
 import top.kylinbot.demo.util.MysqlUtil;
-
-import java.io.IOException;
 
 
 @Beans
@@ -46,12 +43,20 @@ public class OsuOauthListener extends OsuService {
     @Filter(value = "!token", trim = true, matchType = MatchType.EQUALS)
     public void sendToken(PrivateMsg privateMsg, MsgSender sender) {
         int accountCode = Integer.parseInt(privateMsg.getAccountInfo().getAccountCode());
-        MysqlServer sql = new MysqlServer();
         osuUser user = new osuUser(accountCode, null);
-
 //        JSONObject token = getToken();
-        sender.SENDER.sendPrivateMsg(accountCode, "你的token:" + sql.getUserCode(user));
+        sender.SENDER.sendPrivateMsg(accountCode, "你的token:" + MysqlUtil.getUserCode(user));
 //        sender.SENDER.sendPrivateMsg(accountCode, user.toString());
+    }
+
+    @OnPrivate
+    @Filter(value = "!info", trim = true, matchType = MatchType.EQUALS)
+    public void sendPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
+        String qq = privateMsg.getAccountInfo().getAccountCode();
+        String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
+        String testInfo = getPlayerOsuInfo(osuNickName).toString();
+        System.out.println(testInfo);
+        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "testInfo:\n" + testInfo);
     }
 
 }
