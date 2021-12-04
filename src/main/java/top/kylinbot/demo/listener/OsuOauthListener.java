@@ -63,6 +63,9 @@ public class OsuOauthListener extends OsuService {
     public void sendPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
         String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
+        if (osuNickName == null) {
+            sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "尚未绑定, 请发送!oauth以绑定bot");
+        }
         JSONObject testInfo = getPlayerOsuInfo(osuNickName);
         String info = JsonUtil.parseOsuInfoJson(testInfo);
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), info);
@@ -73,20 +76,13 @@ public class OsuOauthListener extends OsuService {
     public void sendPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
         String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
-        JSONObject testInfo = getPlayerOsuInfo(osuNickName);
-        String info = JsonUtil.parseOsuInfoJson(testInfo);
+        if (osuNickName == null) {
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "尚未绑定, 请发送!oauth以绑定bot");
+        }
+        String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), info);
     }
 
-//    @OnPrivate
-//    @Filter(value = "!token", trim = true, matchType = MatchType.EQUALS)
-//    public void sendToken(PrivateMsg privateMsg, MsgSender sender) {
-//        int accountCode = Integer.parseInt(privateMsg.getAccountInfo().getAccountCode());
-//        osuUser user = new osuUser(accountCode, null);
-////        JSONObject token = getToken();
-//        sender.SENDER.sendPrivateMsg(accountCode, "你的token:" + MysqlUtil.getUserCode(user));
-////        sender.SENDER.sendPrivateMsg(accountCode, user.toString());
-//    }
 
     @OnPrivate
     @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
