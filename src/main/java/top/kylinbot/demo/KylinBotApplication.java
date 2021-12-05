@@ -23,8 +23,8 @@ import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 public class KylinBotApplication implements SimbotProcess {
 
     public static void main(String[] args) throws Exception {
-//        SimbotApp.run(KylinBotApplication.class, args);
-        HtmlUtil.getTenHouResult("1112345678999s1s");
+        SimbotApp.run(KylinBotApplication.class, args);
+//        HtmlUtil.getTenHouResult("1112345678999s1s");
     }
 
     @Override
@@ -32,7 +32,6 @@ public class KylinBotApplication implements SimbotProcess {
         Bot bot = context.getBotManager().getDefaultBot();
         BotSender sender = bot.getSender();
         sender.SENDER.sendPrivateMsg(1579525246, "Bot is started\n" + LocalDateTime.now());
-//        sender.SENDER.sendGroupMsg(278134001, "Bot is started\n r18:" + getR18());
     }
 
     @Override

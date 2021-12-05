@@ -19,35 +19,7 @@ import java.util.Enumeration;
 
 
 @Beans
-public class TestListener extends NsfwService {
-
-
-    /**
-     * @param groupMsg 手牌信息
-     * @param sender 传输sender
-     * @throws Exception 获取html的错误信息
-     */
-    @OnGroup
-    @Filter(value = ".t", trim = true, matchType = MatchType.STARTS_WITH)
-    public void sendTenHouResult(GroupMsg groupMsg, MsgSender sender) throws Exception {
-        String tiles = groupMsg.getMsg().replace(".t ","");
-        String result = HtmlUtil.getTenHouResult(tiles);
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), result);
-    }
-
-    /**
-     * @param privateMsg 手牌信息
-     * @param sender 传输sender
-     * @throws Exception 获取html的错误信息
-     */
-    @OnPrivate
-    @Filter(value = ".t", trim = true, matchType = MatchType.STARTS_WITH)
-    public void sendTenHouResult(PrivateMsg privateMsg, MsgSender sender) throws Exception {
-        String tiles = privateMsg.getMsg().replace(".t ","");
-        String result = HtmlUtil.getTenHouResult(tiles);
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), result);
-    }
-
+public class TestListener {
 
     @OnGroup
     @Filter(value = "!repeat", trim = true, matchType = MatchType.CONTAINS)

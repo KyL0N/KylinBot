@@ -46,8 +46,9 @@ public class osuUser {
     public String getAccessToken() {
         return accessToken;
     }
+
     public String getAccessToken(OsuService service) {
-        if(isExpire())
+        if (isExpire())
             service.refreshToken(this);
         return accessToken;
     }

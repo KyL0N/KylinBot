@@ -96,11 +96,10 @@ public class OsuOauthListener extends OsuService {
     @OnGroup
     @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendOtherPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
-        String osuNickName = groupMsg.getMsg().replace("!info ","");
+        String osuNickName = groupMsg.getMsg().replace("!info ", "");
         String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), info);
     }
-
 
 
 }

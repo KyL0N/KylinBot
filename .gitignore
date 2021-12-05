@@ -7,6 +7,7 @@ cache/
 .idea/*.xml
 *.class
 src/main/java/top/kylinbot/demo/service/MahjongService
+src/main/resources/syanten1007-2013.8.5.js
 /src/main/resources/KylinBot.properties
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

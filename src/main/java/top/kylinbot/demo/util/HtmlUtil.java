@@ -1,7 +1,6 @@
 package top.kylinbot.demo.util;
 
 
-
 import com.gargoylesoftware.htmlunit.*;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
@@ -12,7 +11,7 @@ import java.net.URL;
 
 
 public class HtmlUtil {
-    public static String getTenHouResult(String tiles) throws Exception{
+    public static String getTenHouResult(String tiles) throws Exception {
         String url = "https://tenhou.net/2/?q=" + tiles;
 
         WebClient wc = new WebClient(BrowserVersion.CHROME);
@@ -26,7 +25,7 @@ public class HtmlUtil {
         //是否允许使用ActiveX
         wc.getOptions().setActiveXNative(false);
         //等待js时间
-        wc.waitForBackgroundJavaScript(600*1000);
+        wc.waitForBackgroundJavaScript(600 * 1000);
         wc.setAjaxController(new NicelyResynchronizingAjaxController());
         wc.getOptions().setTimeout(1000000);
         wc.getOptions().setDoNotTrackEnabled(false);
@@ -36,8 +35,8 @@ public class HtmlUtil {
         Elements table = html.select("body").select("center")
                 .select("table").select("tbody").select("tr").select("td")
                 .select("div").select("textarea");
-        String result = table.toString().replace("<textarea rows=\"10\" style=\"width:100%;font-size:75%;\">","");
-        result =  result.replace("</textarea>","Data From tenhou.net/2/");
+        String result = table.toString().replace("<textarea rows=\"10\" style=\"width:100%;font-size:75%;\">", "");
+        result = result.replace("</textarea>", "Data From tenhou.net/2/");
         System.out.println(result);
         return result;
     }

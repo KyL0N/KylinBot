@@ -115,7 +115,6 @@ public class MysqlUtil {
     }
 
 
-
     /**
      * test class for using Mysql
      */
