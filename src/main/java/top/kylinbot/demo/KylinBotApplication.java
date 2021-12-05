@@ -10,6 +10,8 @@ import love.forte.simbot.core.SimbotProcess;
 import org.jetbrains.annotations.NotNull;
 import top.kylinbot.demo.service.MahjongService.MahjongTestService;
 import top.kylinbot.demo.service.OsuService;
+import top.kylinbot.demo.util.HtmlUtil;
+
 
 import javax.script.ScriptException;
 import java.time.LocalDateTime;
@@ -20,9 +22,9 @@ import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 @SimbotApplication
 public class KylinBotApplication implements SimbotProcess {
 
-    public static void main(String[] args) throws ScriptException {
-//        SimbotApp.run(KylinBotApplication.class, args);
-        MahjongTestService.mahjongTest();
+    public static void main(String[] args) throws Exception {
+        SimbotApp.run(KylinBotApplication.class, args);
+//        HtmlUtil.test();
     }
 
     @Override

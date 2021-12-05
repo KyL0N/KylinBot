@@ -15,7 +15,7 @@ public class MahjongTestService {
 //        js.eval("stdout.println(Math.cos(Math.PI));");
 //        // Prints "-1.0" to the standard output stream.
         Context context = Context.create();
-        context.parse("js","src/main/java/top/kylinbot/demo/service/MahjongService/judgement.js");
+        context.eval("js","src/main/java/top/kylinbot/demo/service/MahjongService/judgement.js");
 //        context.eval("js", "");
 
     }
