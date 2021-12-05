@@ -12,7 +12,7 @@ import java.net.URL;
 
 
 public class HtmlUtil {
-    public static String test(String tiles) throws Exception{
+    public static String getTenHouResult(String tiles) throws Exception{
         String url = "https://tenhou.net/2/?q=" + tiles;
 
         WebClient wc = new WebClient(BrowserVersion.CHROME);

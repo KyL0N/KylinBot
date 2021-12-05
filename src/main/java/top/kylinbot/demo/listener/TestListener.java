@@ -31,7 +31,7 @@ public class TestListener extends NsfwService {
     @Filter(value = ".t", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendTenHouResult(GroupMsg groupMsg, MsgSender sender) throws Exception {
         String tiles = groupMsg.getMsg().replace(".t ","");
-        String result = HtmlUtil.test(tiles);
+        String result = HtmlUtil.getTenHouResult(tiles);
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), result);
     }
 
@@ -44,7 +44,7 @@ public class TestListener extends NsfwService {
     @Filter(value = ".t", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendTenHouResult(PrivateMsg privateMsg, MsgSender sender) throws Exception {
         String tiles = privateMsg.getMsg().replace(".t ","");
-        String result = HtmlUtil.test(tiles);
+        String result = HtmlUtil.getTenHouResult(tiles);
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), result);
     }
 

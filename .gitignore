@@ -6,6 +6,7 @@ target/
 cache/
 .idea/*.xml
 *.class
+src/main/java/top/kylinbot/demo/service/MahjongService
 /src/main/resources/KylinBot.properties
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
