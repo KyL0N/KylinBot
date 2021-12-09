@@ -10,7 +10,6 @@ public class JsonUtil {
     public static String parseOsuInfoJson(JSONObject json) {
         StringBuilder builder = new StringBuilder();
         String username = json.getString("username");
-//        String mode = json.getString("mode");
         String avatar = json.getString("avatar_url");
         JSONObject statics = json.getJSONObject("statistics");
         String level = statics.getJSONObject("level").getString("current");
