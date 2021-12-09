@@ -78,8 +78,8 @@ public class OsuInquireListener extends OsuService {
     @Filter(value = "!kyre", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPlayerRecentScore(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
-        int id = MysqlUtil.getIDByQQ(qq);//向数据库查询用户id,
-        JSONArray js = getOsuRecent(id, 0, 1);//通过用户id获取最近打图
+        int id = MysqlUtil.getIDByQQ(qq);
+        JSONArray js = getOsuRecent(id, 0, 1);
         JSONObject object = js.getJSONObject(0);
         JSONObject statistics = object.getJSONObject("statistics");
         JSONObject beatmap = object.getJSONObject("beatmap");
@@ -111,13 +111,7 @@ public class OsuInquireListener extends OsuService {
                 .append("95%:").append(acc_95).append("\n")
                 .append("93%:").append(acc_93).append("\n")
                 .append("Mods:").append("None");
-//        int count_miss = statistics.getIntValue("count_miss");
-//        int max_combo = object.getIntValue("max_combo");
         JSONArray mods = object.getJSONArray("mods");
-//        OsuScore score = new OsuScore(max_combo, count_300, count_100, count_50, count_miss, 0);
-        System.out.println(js.toString());
-//        System.out.println(count_miss + "\n" + count_50 + "\n" + count_100
-//                + "\n" + count_300 + "\n" + max_combo + "\n" + mods.toString());
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg.toString());
     }
 
@@ -158,13 +152,7 @@ public class OsuInquireListener extends OsuService {
                 .append("95%:").append(acc_95).append("\n")
                 .append("93%:").append(acc_93).append("\n")
                 .append("Mods:").append("None");
-//        int count_miss = statistics.getIntValue("count_miss");
-//        int max_combo = object.getIntValue("max_combo");
         JSONArray mods = object.getJSONArray("mods");
-//        OsuScore score = new OsuScore(max_combo, count_300, count_100, count_50, count_miss, 0);
-        System.out.println(js.toString());
-//        System.out.println(count_miss + "\n" + count_50 + "\n" + count_100
-//                + "\n" + count_300 + "\n" + max_combo + "\n" + mods.toString());
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg.toString());
     }
 
@@ -203,10 +191,6 @@ public class OsuInquireListener extends OsuService {
         JSONObject beatmapObject = getMapPerformancePoint(beatmap, mod);
         JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
         String diff = beatmapObject.getString("starDiff");
-//        String acc_75 = ppForAcc.getString("0.75").substring(0, 5);
-//        String acc_80 = ppForAcc.getString("0.80").substring(0, 5);
-//        String acc_85 = ppForAcc.getString("0.85").substring(0, 5);
-//        String acc_90 = ppForAcc.getString("0.90").substring(0, 5);
         String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
         String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
         String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
@@ -224,7 +208,6 @@ public class OsuInquireListener extends OsuService {
                 .append("93%:").append(acc_93).append("\n")
                 .append("Mods:").append(mods);
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg.toString());
-
     }
 
     @OnPrivate
@@ -261,10 +244,6 @@ public class OsuInquireListener extends OsuService {
         JSONObject beatmapObject = getMapPerformancePoint(beatmap, mod);
         JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
         String diff = beatmapObject.getString("starDiff");
-//        String acc_75 = ppForAcc.getString("0.75").substring(0, 5);
-//        String acc_80 = ppForAcc.getString("0.80").substring(0, 5);
-//        String acc_85 = ppForAcc.getString("0.85").substring(0, 5);
-//        String acc_90 = ppForAcc.getString("0.90").substring(0, 5);
         String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
         String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
         String acc_97 = ppForAcc.getString("0.97").substring(0, 5);

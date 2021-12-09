@@ -61,22 +61,6 @@
             <!--and i dont wanna the connector version to be higher than server's mysql ver-->
             <version>5.1.45</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.graalvm.js/js-scriptengine -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.graalvm.js</groupId>-->
-        <!--            <artifactId>js-scriptengine</artifactId>-->
-        <!--            <version>21.1.0</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.graalvm.js</groupId>-->
-        <!--            <artifactId>js</artifactId>-->
-        <!--            <version>21.1.0</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.graalvm.truffle</groupId>-->
-        <!--            <artifactId>truffle-api</artifactId>-->
-        <!--            <version>21.1.0</version>-->
-        <!--        </dependency>-->
         <!--HTML parser-->
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -98,6 +82,12 @@
             <groupId>com.github.francesco149</groupId>
             <artifactId>koohii</artifactId>
             <version>2.1.0</version>
+        </dependency>
+        <!--lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
         </dependency>
     </dependencies>
 

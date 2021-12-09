@@ -22,7 +22,7 @@ import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 @SimbotApplication
 public class KylinBotApplication implements SimbotProcess {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SimbotApp.run(KylinBotApplication.class, args);
 //        HtmlUtil.getTenHouResult("1112345678999s1s");
     }
