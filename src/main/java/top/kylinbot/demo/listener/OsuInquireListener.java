@@ -22,7 +22,7 @@ import top.kylinbot.demo.util.MysqlUtil;
 public class OsuInquireListener extends OsuService {
 
     @OnPrivate
-    @Filter(value = "!info", trim = true, matchType = MatchType.EQUALS)
+    @Filter(value = "!info", matchType = MatchType.REGEX_MATCHES)
     public void sendPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
         String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
@@ -35,7 +35,7 @@ public class OsuInquireListener extends OsuService {
     }
 
     @OnGroup
-    @Filter(value = "!info", trim = true, matchType = MatchType.EQUALS)
+    @Filter(value = "!info", matchType = MatchType.REGEX_MATCHES)
     public void sendPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
         String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
@@ -50,6 +50,9 @@ public class OsuInquireListener extends OsuService {
     @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendOtherPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
 //        String osuNickName = privateMsg.getMsgContent().toString().replace("!info ","");
+        if(privateMsg.getMsg().length() == 5){
+            return;
+        }
         String osuNickName = privateMsg.getMsg().replace("!info ", "");
         String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), info);
@@ -58,6 +61,10 @@ public class OsuInquireListener extends OsuService {
     @OnGroup
     @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendOtherPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
+        if (groupMsg.getMsg().length() == 5) {
+            System.out.println("no name");
+            return;
+        }
         String osuNickName = groupMsg.getMsg().replace("!info ", "");
         String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), info);
@@ -77,7 +84,7 @@ public class OsuInquireListener extends OsuService {
         int count_300 = statistics.getIntValue("count_300");
         int max_combo = object.getIntValue("max_combo");
         JSONArray mods = object.getJSONArray("mods");
-        OsuScore score = new OsuScore(max_combo,count_300,count_100,count_50,count_miss,0);
+        OsuScore score = new OsuScore(max_combo, count_300, count_100, count_50, count_miss, 0);
         OsuApiBeatmapForDiff beatmap = new OsuApiBeatmapForDiff();
 
         score.getPP((Beatmap) beatmap);
