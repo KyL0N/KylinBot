@@ -9,6 +9,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.tillerino.osuApiModel.types.BitwiseMods;
 import top.kylinbot.demo.modle.osuUser;
 import top.kylinbot.demo.util.MysqlUtil;
 
@@ -26,6 +27,8 @@ public class OsuService extends RestTemplate {
     private static String redirectUrl;
     private static String oauthToken;
     private static String URL;
+    private static String tillerinoURL = "https://api.tillerino.org";
+    public static String tillerinoKey;
 
     static {
         try {
@@ -36,6 +39,7 @@ public class OsuService extends RestTemplate {
             redirectUrl = props.getProperty("redirectUrl");
             oauthToken = props.getProperty("oauthToken");
             URL = props.getProperty("api");
+            tillerinoKey = props.getProperty("TillerinoBotKey");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -244,11 +248,11 @@ public class OsuService extends RestTemplate {
         return getRecent(id, "osu", s, e);
     }
 
-    public JSONArray getOsuAllRecent(osuUser user, int s, int e){
+    public JSONArray getOsuAllRecent(osuUser user, int s, int e) {
         return getAllRecent(user, "osu", s, e);
     }
 
-    public JSONArray getOsuAllRecent(int id, int s, int e){
+    public JSONArray getOsuAllRecent(int id, int s, int e) {
         return getAllRecent(id, "osu", s, e);
     }
 
@@ -333,6 +337,22 @@ public class OsuService extends RestTemplate {
 
         HttpEntity httpEntity = new HttpEntity(headers);
         ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
+        return c.getBody();
+    }
+
+    public JSONObject getMapPerformancePoint(long beatmapid, @BitwiseMods long mods) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(tillerinoURL + "/beatmapinfo")
+                .queryParam("beatmapid", beatmapid)
+                .queryParam("mods", mods)
+                .queryParam("wait", 1000)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("api-key", tillerinoKey);
+
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<JSONObject> c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
         return c.getBody();
     }
 }

@@ -1,15 +1,19 @@
 package top.kylinbot.demo.listener;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
+import love.forte.simbot.annotation.FilterValue;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
+import org.tillerino.osuApiModel.Mods;
+import org.tillerino.osuApiModel.types.BitwiseMods;
 import top.kylinbot.demo.modle.osuScore.Beatmap;
 import top.kylinbot.demo.modle.osuScore.BeatmapImpl;
 import top.kylinbot.demo.modle.osuScore.OsuApiBeatmapForDiff;
@@ -50,7 +54,7 @@ public class OsuInquireListener extends OsuService {
     @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendOtherPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
 //        String osuNickName = privateMsg.getMsgContent().toString().replace("!info ","");
-        if(privateMsg.getMsg().length() == 5){
+        if (privateMsg.getMsg().length() == 5) {
             return;
         }
         String osuNickName = privateMsg.getMsg().replace("!info ", "");
@@ -78,19 +82,208 @@ public class OsuInquireListener extends OsuService {
         JSONArray js = getOsuRecent(id, 0, 1);//通过用户id获取最近打图
         JSONObject object = js.getJSONObject(0);
         JSONObject statistics = object.getJSONObject("statistics");
-        int count_miss = statistics.getIntValue("count_miss");
-        int count_50 = statistics.getIntValue("count_50");
-        int count_100 = statistics.getIntValue("count_100");
-        int count_300 = statistics.getIntValue("count_300");
-        int max_combo = object.getIntValue("max_combo");
-        JSONArray mods = object.getJSONArray("mods");
-        OsuScore score = new OsuScore(max_combo, count_300, count_100, count_50, count_miss, 0);
-        OsuApiBeatmapForDiff beatmap = new OsuApiBeatmapForDiff();
+        JSONObject beatmap = object.getJSONObject("beatmap");
+        long bid = beatmap.getLong("id");
+        Double AR = beatmap.getDoubleValue("ar");
+        Double OD = beatmap.getDoubleValue("accuracy");
+        Double BPM = beatmap.getDoubleValue("bpm");
+        Double HP = beatmap.getDoubleValue("drain");
+        Double CS = beatmap.getDoubleValue("cs");
 
-        score.getPP((Beatmap) beatmap);
-        System.out.println(count_miss + "\n" + count_50 + "\n" + count_100
-                + "\n" + count_300 + "\n" + max_combo + "\n" + mods.toString());
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "1");
+        JSONObject beatmapObject = getMapPerformancePoint(bid,0);
+        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
+        String diff = beatmapObject.getString("starDiff");
+        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
+        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
+        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
+        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
+        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
+        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
+        StringBuilder msg = new StringBuilder();
+        msg.append("BID:").append(bid).append("\n")
+                .append("CS").append(CS).append(" AR").append(AR).append(" OD").append(OD).append(" HP").append(HP).append("\n")
+                .append("BPM").append(BPM)
+                .append("star:").append(diff).append("\n")
+                .append("100%:").append(acc_100).append("\n")
+                .append("99%:").append(acc_99).append("\n")
+                .append("98%:").append(acc_98).append("\n")
+                .append("97%:").append(acc_97).append("\n")
+                .append("95%:").append(acc_95).append("\n")
+                .append("93%:").append(acc_93).append("\n")
+                .append("Mods:").append("None");
+//        int count_miss = statistics.getIntValue("count_miss");
+//        int max_combo = object.getIntValue("max_combo");
+        JSONArray mods = object.getJSONArray("mods");
+//        OsuScore score = new OsuScore(max_combo, count_300, count_100, count_50, count_miss, 0);
+        System.out.println(js.toString());
+//        System.out.println(count_miss + "\n" + count_50 + "\n" + count_100
+//                + "\n" + count_300 + "\n" + max_combo + "\n" + mods.toString());
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg.toString());
     }
+
+    @OnPrivate
+    @Filter(value = "!kyre", trim = true, matchType = MatchType.STARTS_WITH)
+    public void sendPlayerRecentScore(PrivateMsg privateMsg, MsgSender sender) {
+        String qq = privateMsg.getAccountInfo().getAccountCode();
+        int id = MysqlUtil.getIDByQQ(qq);//向数据库查询用户id,
+        JSONArray js = getOsuRecent(id, 0, 1);//通过用户id获取最近打图
+        JSONObject object = js.getJSONObject(0);
+        JSONObject statistics = object.getJSONObject("statistics");
+        JSONObject beatmap = object.getJSONObject("beatmap");
+        long bid = beatmap.getLong("id");
+        Double AR = beatmap.getDoubleValue("ar");
+        Double OD = beatmap.getDoubleValue("accuracy");
+        Double BPM = beatmap.getDoubleValue("bpm");
+        Double HP = beatmap.getDoubleValue("drain");
+        Double CS = beatmap.getDoubleValue("cs");
+
+        JSONObject beatmapObject = getMapPerformancePoint(bid,0);
+        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
+        String diff = beatmapObject.getString("starDiff");
+        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
+        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
+        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
+        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
+        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
+        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
+        StringBuilder msg = new StringBuilder();
+        msg.append("BID:").append(bid).append("\n")
+                .append("CS").append(CS).append(" AR").append(AR).append(" OD").append(OD).append(" HP").append(HP).append("\n")
+                .append("BPM").append(BPM)
+                .append("star:").append(diff).append("\n")
+                .append("100%:").append(acc_100).append("\n")
+                .append("99%:").append(acc_99).append("\n")
+                .append("98%:").append(acc_98).append("\n")
+                .append("97%:").append(acc_97).append("\n")
+                .append("95%:").append(acc_95).append("\n")
+                .append("93%:").append(acc_93).append("\n")
+                .append("Mods:").append("None");
+//        int count_miss = statistics.getIntValue("count_miss");
+//        int max_combo = object.getIntValue("max_combo");
+        JSONArray mods = object.getJSONArray("mods");
+//        OsuScore score = new OsuScore(max_combo, count_300, count_100, count_50, count_miss, 0);
+        System.out.println(js.toString());
+//        System.out.println(count_miss + "\n" + count_50 + "\n" + count_100
+//                + "\n" + count_300 + "\n" + max_combo + "\n" + mods.toString());
+        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg.toString());
+    }
+
+
+    @OnGroup
+    @Filter(value = "!kypp {{beatmap,\\d+}} {{mods,\\w+}}", matchType = MatchType.REGEX_MATCHES)
+    public void sendBeatmapPerformancePoint(GroupMsg groupMsg, MsgSender sender, @FilterValue("beatmap") long beatmap, @FilterValue("mods") String mods) {
+        @BitwiseMods long mod = 0;
+        if (mods.contains("NF")) {
+            mod = Mods.add(mod, Mods.NoFail);
+        }
+        if (mods.contains("EZ")) {
+            mod = Mods.add(mod, Mods.Easy);
+        }
+        if (mods.contains("HD")) {
+            mod = Mods.add(mod, Mods.Hidden);
+        }
+        if (mods.contains("HR")) {
+            mod = Mods.add(mod, Mods.HardRock);
+        }
+        if (mods.contains("DT")) {
+            mod = Mods.add(mod, Mods.DoubleTime);
+        }
+        if (mods.contains("HT")) {
+            mod = Mods.add(mod, Mods.HalfTime);
+        }
+        if (mods.contains("NC")) {
+            mod = Mods.add(mod, Mods.Nightcore);
+        }
+        if (mods.contains("FL")) {
+            mod = Mods.add(mod, Mods.Flashlight);
+        }
+        if (mods.contains("SO")) {
+            mod = Mods.add(mod, Mods.SpunOut);
+        }
+        JSONObject beatmapObject = getMapPerformancePoint(beatmap, mod);
+        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
+        String diff = beatmapObject.getString("starDiff");
+//        String acc_75 = ppForAcc.getString("0.75").substring(0, 5);
+//        String acc_80 = ppForAcc.getString("0.80").substring(0, 5);
+//        String acc_85 = ppForAcc.getString("0.85").substring(0, 5);
+//        String acc_90 = ppForAcc.getString("0.90").substring(0, 5);
+        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
+        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
+        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
+        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
+        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
+        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
+        StringBuilder msg = new StringBuilder();
+        msg.append("BID:").append(beatmap).append("\n")
+                .append("star:").append(diff).append("\n")
+                .append("100%:").append(acc_100).append("\n")
+                .append("99%:").append(acc_99).append("\n")
+                .append("98%:").append(acc_98).append("\n")
+                .append("97%:").append(acc_97).append("\n")
+                .append("95%:").append(acc_95).append("\n")
+                .append("93%:").append(acc_93).append("\n")
+                .append("Mods:").append(mods);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg.toString());
+
+    }
+
+    @OnPrivate
+    @Filter(value = "!kypp {{beatmap,\\d+}} {{mods,\\w+}}", matchType = MatchType.REGEX_MATCHES)
+    public void sendBeatmapPerformancePoint(PrivateMsg privateMsg, MsgSender sender, @FilterValue("beatmap") long beatmap, @FilterValue("mods") String mods) {
+        @BitwiseMods long mod = 0;
+        if (mods.contains("NF")) {
+            mod = Mods.add(mod, Mods.NoFail);
+        }
+        if (mods.contains("EZ")) {
+            mod = Mods.add(mod, Mods.Easy);
+        }
+        if (mods.contains("HD")) {
+            mod = Mods.add(mod, Mods.Hidden);
+        }
+        if (mods.contains("HR")) {
+            mod = Mods.add(mod, Mods.HardRock);
+        }
+        if (mods.contains("DT")) {
+            mod = Mods.add(mod, Mods.DoubleTime);
+        }
+        if (mods.contains("HT")) {
+            mod = Mods.add(mod, Mods.HalfTime);
+        }
+        if (mods.contains("NC")) {
+            mod = Mods.add(mod, Mods.Nightcore);
+        }
+        if (mods.contains("FL")) {
+            mod = Mods.add(mod, Mods.Flashlight);
+        }
+        if (mods.contains("SO")) {
+            mod = Mods.add(mod, Mods.SpunOut);
+        }
+        JSONObject beatmapObject = getMapPerformancePoint(beatmap, mod);
+        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
+        String diff = beatmapObject.getString("starDiff");
+//        String acc_75 = ppForAcc.getString("0.75").substring(0, 5);
+//        String acc_80 = ppForAcc.getString("0.80").substring(0, 5);
+//        String acc_85 = ppForAcc.getString("0.85").substring(0, 5);
+//        String acc_90 = ppForAcc.getString("0.90").substring(0, 5);
+        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
+        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
+        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
+        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
+        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
+        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
+        StringBuilder msg = new StringBuilder();
+        msg.append("BID:").append(beatmap).append("\n")
+                .append("star:").append(diff).append("\n")
+                .append("100%:").append(acc_100).append("\n")
+                .append("99%:").append(acc_99).append("\n")
+                .append("98%:").append(acc_98).append("\n")
+                .append("97%:").append(acc_97).append("\n")
+                .append("95%:").append(acc_95).append("\n")
+                .append("93%:").append(acc_93).append("\n")
+                .append("Mods:").append(mods);
+        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg.toString());
+
+    }
+
 }
                                                                                   
