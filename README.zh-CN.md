@@ -7,6 +7,7 @@
 
 [中](https://github.com/KyL0N/KylinBot/blob/main/README.zh-CN.md) / [English](https://github.com/KyL0N/KylinBot/blob/main/README.md)
 
+## 项目介绍 
 
 这是基于 [simple-robot](https://github.com/ForteScarlet/simpler-robot)  框架使用 [mirai组件](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai) 对接 [Mirai](https://github.com/mamoe/mirai) 的 Demo 项目
 
@@ -60,6 +61,7 @@ PRs accepted.
 
 ## License
 
+该项目签署了 Apache 授权许可，详情请参阅 LICENSE.txt
 **Apache 2.0 License**
 
 
