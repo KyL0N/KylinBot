@@ -62,5 +62,5 @@ PRs accepted.
 ## License
 
 **Apache 2.0 License**
-The project has signed the Apache license, please refer to LICENSE.txt for details
+The project has signed the Apache 2.0 license, please refer to LICENSE.txt for details
 

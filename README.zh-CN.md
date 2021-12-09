@@ -61,7 +61,8 @@ PRs accepted.
 
 ## License
 
-该项目签署了 Apache 授权许可，详情请参阅 LICENSE.txt
 **Apache 2.0 License**
+该项目签署了 Apache 2.0 授权许可，详情请参阅 LICENSE.txt
+
 
 
