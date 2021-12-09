@@ -3,7 +3,9 @@
 [![](https://img.shields.io/badge/blog-Kylin-blue)](http://kyl1n.top/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-中 / English [![](https://img.shields.io/badge/%E8%AF%AD%E8%A8%80-%E4%B8%AD%E6%96%87-green)](https://github.com/KyL0N/KylinBot/blob/main/README.zh-CN.md) [![](https://img.shields.io/badge/Language-English-green)](https://github.com/KyL0N/KylinBot/blob/main/README.md)
+[comment]: <> (中 / English [![]&#40;https://img.shields.io/badge/%E8%AF%AD%E8%A8%80-%E4%B8%AD%E6%96%87-green&#41;]&#40;https://github.com/KyL0N/KylinBot/blob/main/README.zh-CN.md&#41; [![]&#40;https://img.shields.io/badge/Language-English-green&#41;]&#40;https://github.com/KyL0N/KylinBot/blob/main/README.md&#41;)
+
+[中](https://github.com/KyL0N/KylinBot/blob/main/README.zh-CN.md) / [English](https://github.com/KyL0N/KylinBot/blob/main/README.md)
 
 
 这是基于 [simple-robot](https://github.com/ForteScarlet/simpler-robot)  框架使用 [mirai组件](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai) 对接 [Mirai](https://github.com/mamoe/mirai) 的 Demo 项目
