@@ -17,7 +17,10 @@ public class JsonUtil {
         String progress = statics.getJSONObject("level").getString("progress");
         String global_rank = statics.getString("global_rank");
         String pp = statics.getString("pp");
-        String accuracy = statics.getString("hit_accuracy").substring(0, 4);
+        String accuracy = statics.getString("hit_accuracy");
+        if (!accuracy.equals("100")) {
+            accuracy = accuracy.substring(0, 5);
+        }
         String play_count = statics.getString("play_count");
         String country_rank = statics.getString("country_rank");
         long play_time = statics.getLong("play_time") / 3600;
