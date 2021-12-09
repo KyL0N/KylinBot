@@ -58,48 +58,5 @@ public class OsuOauthListener extends OsuService {
     }
 
 
-    @OnPrivate
-    @Filter(value = "!info", trim = true, matchType = MatchType.EQUALS)
-    public void sendPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
-        String qq = privateMsg.getAccountInfo().getAccountCode();
-        String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
-        if (osuNickName == null) {
-            sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "尚未绑定, 请发送!oauth以绑定bot");
-        }
-        JSONObject testInfo = getPlayerOsuInfo(osuNickName);
-        String info = JsonUtil.parseOsuInfoJson(testInfo);
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), info);
-    }
-
-    @OnGroup
-    @Filter(value = "!info", trim = true, matchType = MatchType.EQUALS)
-    public void sendPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
-        String qq = groupMsg.getAccountInfo().getAccountCode();
-        String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
-        if (osuNickName == null) {
-            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "尚未绑定, 请发送!oauth以绑定bot");
-        }
-        String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), info);
-    }
-
-
-    @OnPrivate
-    @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
-    public void sendOtherPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
-//        String osuNickName = privateMsg.getMsgContent().toString().replace("!info ","");
-        String osuNickName = privateMsg.getMsg().replace("!info ", "");
-        String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), info);
-    }
-
-    @OnGroup
-    @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
-    public void sendOtherPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
-        String osuNickName = groupMsg.getMsg().replace("!info ", "");
-        String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), info);
-    }
-
 
 }

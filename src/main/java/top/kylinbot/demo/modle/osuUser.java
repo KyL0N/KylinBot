@@ -4,6 +4,7 @@ import top.kylinbot.demo.service.OsuService;
 
 public class osuUser {
     private int qq;
+    private int id;
     private String osuID;
     private String accessToken;
     private String refreshToken;
@@ -70,6 +71,14 @@ public class osuUser {
         expire = System.currentTimeMillis() + validTime * 1000;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Boolean isExpire() {
         return System.currentTimeMillis() > expire;
     }
@@ -81,5 +90,6 @@ public class osuUser {
                 "osuID:" + osuID +
                 "}";
     }
+
 
 }

@@ -1,10 +1,12 @@
 package top.kylinbot.demo.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import love.forte.simbot.core.configuration.ComponentBeans;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import top.kylinbot.demo.modle.osuUser;
@@ -160,7 +162,7 @@ public class OsuService extends RestTemplate {
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONObject> c = exchange(url, HttpMethod.GET, httpEntity, JSONObject.class);
         user.setOsuID(c.getBody().getString("username"));
-//        user.setOsuName(c.getBody().getString("username"));
+        user.setId(c.getBody().getIntValue("id"));
         return c.getBody();
     }
 
@@ -209,7 +211,7 @@ public class OsuService extends RestTemplate {
     }
 
     public JSONObject getPlayerInfo(String name, String mode) {
-        URI uri = UriComponentsBuilder.fromHttpUrl(this.URL + "users/" + name + '/' + mode)
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + name + '/' + mode)
                 .queryParam("key", "username")
                 .build().encode().toUri();
         HttpHeaders headers = new HttpHeaders();
@@ -223,4 +225,114 @@ public class OsuService extends RestTemplate {
     }
 
 
+//    public JSONObject getPlayerRecentScore(String name){
+//
+//    }
+
+    /***
+     * 获得score(最近游玩列表
+     * @param user
+     * @param s
+     * @param e
+     * @return
+     */
+    public JSONArray getOsuRecent(osuUser user, int s, int e) {
+        return getRecent(user, "osu", s, e);
+    }
+
+    public JSONArray getOsuRecent(int id, int s, int e) {
+        return getRecent(id, "osu", s, e);
+    }
+
+    public JSONArray getOsuAllRecent(osuUser user, int s, int e){
+        return getAllRecent(user, "osu", s, e);
+    }
+
+    public JSONArray getOsuAllRecent(int id, int s, int e){
+        return getAllRecent(id, "osu", s, e);
+    }
+
+    public JSONArray getRecent(osuUser user, String mode, int s, int e) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + user.getOsuID() + "/scores/recent")
+                .queryParam("mode", mode)
+                .queryParam("limit", e)
+                .queryParam("offset", s)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + user.getAccessToken(this));
+
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
+        return c.getBody();
+    }
+
+    /***
+     * 包含fail的
+     * @param user
+     * @param mode
+     * @param s
+     * @param e
+     * @return
+     */
+    public JSONArray getAllRecent(osuUser user, String mode, int s, int e) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + user.getOsuID() + "/scores/recent")
+                .queryParam("mode", mode)
+                .queryParam("include_fails", 1)
+                .queryParam("limit", e)
+                .queryParam("offset", s)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + user.getAccessToken(this));
+
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
+        return c.getBody();
+    }
+
+    public JSONArray getRecent(int id, String mode, int s, int e) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + id + "/scores/recent")
+                .queryParam("mode", mode)
+                .queryParam("limit", e)
+                .queryParam("offset", s)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + getToken());
+
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<JSONArray> c = null;
+        try {
+            c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
+        } catch (RestClientException restClientException) {
+            restClientException.printStackTrace();
+            return null;
+        }
+        return c.getBody();
+    }
+
+    public JSONArray getAllRecent(int id, String mode, int s, int e) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + id + "/scores/recent")
+                .queryParam("mode", mode)
+                .queryParam("include_fails", 1)
+                .queryParam("limit", e)
+                .queryParam("offset", s)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + getToken());
+
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
+        return c.getBody();
+    }
 }

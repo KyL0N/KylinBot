@@ -37,7 +37,9 @@ public class MysqlUtil {
             Connection con = getConnect();
             String query = "INSERT INTO osuDB.osu VALUES ('" + osuPlayer.getQQ() + "','"
                     + osuPlayer.getOsuID() + "','" + osuPlayer.getAccessToken() + "','"
-                    + osuPlayer.getRefreshToken() + "','" + osuPlayer.getExpire() + "')";
+                    + osuPlayer.getRefreshToken() + "','" + osuPlayer.getExpire() + "','"
+                    + osuPlayer.getId() +
+                    "')";
 //            System.out.println(query);
             PreparedStatement st = con.prepareStatement(query);
             st.executeUpdate();
@@ -80,6 +82,22 @@ public class MysqlUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static int getIDByQQ(String qq) {
+        try {
+            Connection con = getConnect();
+            String query = "SELECT id FROM osuDB.osu WHERE qq = '" + qq + "'";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            if (rs.next()) {
+//                System.out.println(rs.getString(1));
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 
