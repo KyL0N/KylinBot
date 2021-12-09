@@ -52,10 +52,11 @@ password=yourQQpasswd
 
 PRs accepted.
 
-## Acknowledgements
+[comment]: <> (## Acknowledgements)
 
-Thanks to [JetBrains](https://www.jetbrains.com/?from=mirai) for allocating free open-source licences for IDEs such as [IntelliJ IDEA](https://www.jetbrains.com/idea/?from=mirai).  
-[<img src=".github/jetbrains-variant-3.png" width="200"/>](https://www.jetbrains.com/?from=mirai)
+[comment]: <> (Thanks to [JetBrains]&#40;https://www.jetbrains.com/?from=mirai&#41; for allocating free open-source licences for IDEs such as [IntelliJ IDEA]&#40;https://www.jetbrains.com/idea/?from=mirai&#41;.  )
+
+[comment]: <> ([<img src=".github/jetbrains-variant-3.png" width="200"/>]&#40;https://www.jetbrains.com/?from=mirai&#41;)
 
 
 ## License
