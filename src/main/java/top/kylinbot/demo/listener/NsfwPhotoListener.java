@@ -23,7 +23,6 @@ public class NsfwPhotoListener extends NsfwService {
 
     /**
      * 获取R18标志, 0为off 1为on
-     *
      * @return 返回r18值
      */
     public static int getR18() {
@@ -134,13 +133,13 @@ public class NsfwPhotoListener extends NsfwService {
         int seed = (int) (Math.random() * 30);
         if (seed < 10) {
             url = url1;
-            System.out.println("1\n");
+            System.out.println(seed + "\n");
         } else if (seed < 20) {
             url = url2;
-            System.out.println("2\n");
+            System.out.println(seed + "\n");
         } else {
             url = url3;
-            System.out.println("3\n");
+            System.out.println(seed + "\n");
         }
         String image = util.getStringTemplate().image(url);
         sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), image);

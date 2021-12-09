@@ -12,6 +12,7 @@ import top.kylinbot.demo.util.HtmlUtil;
 
 @Beans
 public class MahjongListener {
+
     /**
      * @param groupMsg 手牌信息
      * @param sender   传输sender
