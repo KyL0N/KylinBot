@@ -18,8 +18,7 @@ import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 
 public class NsfwService {
     private static final String iw233 = "https://iw233.cn/API/Random.php";
-    private static final String toubiec = "https://acg.toubiec.cn/random.php?ret=json";
-    //    original
+    private static final String toubiec = "https://acg.toubiec.cn/random.php?ret=json";//    original
 //    regular
 //    small
 //    thumb
@@ -89,10 +88,24 @@ public class NsfwService {
         String url = data.getJSONObject(0).getString("imgurl");
 
         System.out.println("url:" + url);
-//        System.out.println("r18:" + r18);
-        //i.pixiv.cat现以被墙, i.pixiv.re可正常使用
         return url;
     }
+
+    /**
+     * @param string 传入get到的Json信息
+     * @return 返回解析到的图片url信息
+     */
+    public String parseMirlKoiJson(String string) {
+        JSONObject data = JSON.parseObject(string);
+//        JSONArray data = jsonObject.getJSONArray(0);
+//        String r18 = data.getJSONObject(0).getString("r18");
+//        String uid = data.getJSONObject(0).getString("uid");
+        String url = data.getString("pic");
+        System.out.println("url:" + url);
+        return url;
+    }
+
+
 
     public String parseJson(String string) {
         JSONObject jsonObject = JSON.parseObject(string);

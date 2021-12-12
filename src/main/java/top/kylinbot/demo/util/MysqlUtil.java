@@ -136,8 +136,6 @@ public class MysqlUtil {
     /**
      * test class for using Mysql
      */
-
-
     public static void testConnect() {
         try {
             Connection con = getConnect();

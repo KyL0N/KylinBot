@@ -10,6 +10,12 @@ import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import top.kylinbot.demo.service.NsfwService;
 import top.kylinbot.demo.util.DeflaterUtil;
 
@@ -101,11 +107,11 @@ public class NsfwPhotoListener extends NsfwService {
 
     @OnGroup
     @Filter(value = ".thu", matchType = MatchType.STARTS_WITH)
-    public void sendAcgImg(GroupMsg msg, MsgSender sender) {
+    public void sendAcgImg(GroupMsg msg, MsgSender sender) throws IOException {
         CatCodeUtil util = CatCodeUtil.INSTANCE;
         String url;
-        String url1 = "https://iw233.cn/API/Random.php";
-        String url2 = "https://iw233.cn/API/Ghs.php";
+        String url1 = "https://iw233.cn/API/Random.php?type=json";
+        String url2 = "https://iw233.cn/API/MirlKoi.php?type=json";
         String url3 = "https://www.yingciyuan.cn/api.php";
         int seed = (int) (Math.random() * 30);
         if (seed < 10) {
@@ -117,18 +123,28 @@ public class NsfwPhotoListener extends NsfwService {
         } else {
             url = url3;
             System.out.println(seed + "\n");
+            String image = util.getStringTemplate().image(url);
+            sender.SENDER.sendGroupMsg(msg.getGroupInfo().getGroupCode(), image);
+            return;
         }
+        HttpClient client = HttpClients.createDefault();
+        HttpGet get = new HttpGet(url);
+        HttpResponse response = client.execute(get);
+        HttpEntity entity = response.getEntity();
+        String string = EntityUtils.toString(entity);
+//        System.out.println(string);
+        url = parseMirlKoiJson(string);
         String image = util.getStringTemplate().image(url);
         sender.SENDER.sendGroupMsg(msg.getGroupInfo().getGroupCode(), image);
     }
 
     @OnPrivate
     @Filter(value = ".thu", matchType = MatchType.STARTS_WITH)
-    public void sendAcgImg(PrivateMsg msg, MsgSender sender) {
+    public void sendAcgImg(PrivateMsg msg, MsgSender sender) throws IOException {
         CatCodeUtil util = CatCodeUtil.INSTANCE;
         String url;
-        String url1 = "https://iw233.cn/API/Random.php";
-        String url2 = "https://iw233.cn/API/Ghs.php";
+        String url1 = "https://iw233.cn/API/Random.php?type=json";
+        String url2 = "https://iw233.cn/API/MirlKoi.php?type=json";
         String url3 = "https://www.yingciyuan.cn/api.php";
         int seed = (int) (Math.random() * 30);
         if (seed < 10) {
@@ -140,7 +156,17 @@ public class NsfwPhotoListener extends NsfwService {
         } else {
             url = url3;
             System.out.println(seed + "\n");
+            String image = util.getStringTemplate().image(url);
+            sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), image);
+            return;
         }
+        HttpClient client = HttpClients.createDefault();
+        HttpGet get = new HttpGet(url);
+        HttpResponse response = client.execute(get);
+        HttpEntity entity = response.getEntity();
+        String string = EntityUtils.toString(entity);
+//        System.out.println(string);
+        url = parseMirlKoiJson(string);
         String image = util.getStringTemplate().image(url);
         sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), image);
     }
