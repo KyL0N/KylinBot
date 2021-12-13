@@ -70,7 +70,7 @@ public class OsuInquireListener extends OsuService {
     }
 
     @OnGroup
-    @Filter(value = "!kyre", trim = true, matchType = MatchType.STARTS_WITH)
+    @Filter(value = "!kypr", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPlayerRecentScore(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
@@ -111,7 +111,7 @@ public class OsuInquireListener extends OsuService {
     }
 
     @OnPrivate
-    @Filter(value = "!kyre", trim = true, matchType = MatchType.STARTS_WITH)
+    @Filter(value = "!kypr", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPlayerRecentScore(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);//向数据库查询用户id,
