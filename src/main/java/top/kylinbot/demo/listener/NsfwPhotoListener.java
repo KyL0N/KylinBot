@@ -64,7 +64,6 @@ public class NsfwPhotoListener extends NsfwService {
     @OnPrivate
     @Filter(value = ".uestc", matchType = MatchType.EQUALS)
     public void sendPrivatePixivPic(PrivateMsg privateMsg, MsgSender sender) {
-//        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "url:" + urls);
         String catCode1 = null;
         try {
             catCode1 = getCatCodeFromApi(true);

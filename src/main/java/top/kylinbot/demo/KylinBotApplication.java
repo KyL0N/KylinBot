@@ -27,6 +27,7 @@ public class KylinBotApplication implements SimbotProcess {
 //        HtmlUtil.getTenHouResult("1112345678999s1s");
     }
 
+
     @Override
     public void post(@NotNull SimbotContext context) {
         Bot bot = context.getBotManager().getDefaultBot();
