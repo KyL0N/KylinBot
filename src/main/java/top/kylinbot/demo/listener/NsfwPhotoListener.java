@@ -1,7 +1,6 @@
 package top.kylinbot.demo.listener;
 
 import catcode.CatCodeUtil;
-import catcode.CatEncoder;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
@@ -17,10 +16,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import top.kylinbot.demo.service.NsfwService;
-import top.kylinbot.demo.util.DeflaterUtil;
 
 import java.io.IOException;
-import java.util.Random;
 
 @Beans
 public class NsfwPhotoListener extends NsfwService {

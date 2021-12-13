@@ -1,6 +1,5 @@
 package top.kylinbot.demo.listener;
 
-import com.alibaba.fastjson.JSONObject;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
@@ -12,7 +11,6 @@ import love.forte.simbot.filter.MatchType;
 import top.kylinbot.demo.modle.osuUser;
 import top.kylinbot.demo.service.OsuBindService;
 import top.kylinbot.demo.service.OsuService;
-import top.kylinbot.demo.util.JsonUtil;
 import top.kylinbot.demo.util.MysqlUtil;
 
 
@@ -56,7 +54,6 @@ public class OsuOauthListener extends OsuService {
             sender.SENDER.sendPrivateMsg(groupMsg.getGroupInfo().getGroupCode(), "绑定失败或超时");
         }
     }
-
 
 
 }

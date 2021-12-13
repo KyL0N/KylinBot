@@ -11,14 +11,8 @@ import love.forte.simbot.api.message.results.GroupList;
 import love.forte.simbot.api.message.results.SimpleGroupInfo;
 import love.forte.simbot.api.sender.Getter;
 import love.forte.simbot.api.sender.MsgSender;
-import love.forte.simbot.bot.Bot;
-import love.forte.simbot.bot.BotDestroyer;
 import love.forte.simbot.bot.BotManager;
-import love.forte.simbot.core.SimbotContext;
-import love.forte.simbot.core.SimbotProcess;
 import love.forte.simbot.filter.MatchType;
-import org.jetbrains.annotations.NotNull;
-import top.kylinbot.demo.KylinBotApplication;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,9 +38,8 @@ public class DebugListener {
         msgSender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), helpMsg);
     }
 
-
     @OnPrivate
-    @Filter(value = "!shut", matchType = MatchType.EQUALS)
+    @Filter(value = "!shutdown", matchType = MatchType.EQUALS)
     public void shutdown(PrivateMsg privateMsg, MsgSender msgSender, Getter getter) {
         long count = getter.getGroupList().stream().count();
         GroupList list = getter.getGroupList();

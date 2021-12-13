@@ -85,7 +85,7 @@ public class OsuInquireListener extends OsuService {
         Double HP = beatmap.getDoubleValue("drain");
         Double CS = beatmap.getDoubleValue("cs");
 
-        JSONObject beatmapObject = getMapPerformancePoint(bid,0);
+        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
         JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
         String diff = beatmapObject.getString("starDiff");
         String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
@@ -126,7 +126,7 @@ public class OsuInquireListener extends OsuService {
         Double HP = beatmap.getDoubleValue("drain");
         Double CS = beatmap.getDoubleValue("cs");
 
-        JSONObject beatmapObject = getMapPerformancePoint(bid,0);
+        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
         JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
         String diff = beatmapObject.getString("starDiff");
         String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
@@ -167,7 +167,7 @@ public class OsuInquireListener extends OsuService {
         Double HP = beatmap.getDoubleValue("drain");
         Double CS = beatmap.getDoubleValue("cs");
 
-        JSONObject beatmapObject = getMapPerformancePoint(bid,0);
+        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
         JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
         String diff = beatmapObject.getString("starDiff");
         String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
@@ -208,7 +208,7 @@ public class OsuInquireListener extends OsuService {
         Double HP = beatmap.getDoubleValue("drain");
         Double CS = beatmap.getDoubleValue("cs");
 
-        JSONObject beatmapObject = getMapPerformancePoint(bid,0);
+        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
         JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
         String diff = beatmapObject.getString("starDiff");
         String acc_93 = ppForAcc.getString("0.93").substring(0, 5);

@@ -4,23 +4,17 @@ import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
 import love.forte.simbot.annotation.OnPrivate;
-import love.forte.simbot.annotation.OnlySession;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
-import love.forte.simbot.api.sender.Sender;
 import love.forte.simbot.filter.MatchType;
-import love.forte.simbot.listener.ContinuousSessionScopeContext;
-import love.forte.simbot.listener.ListenerContext;
-import love.forte.simbot.listener.SessionCallback;
 import top.kylinbot.demo.util.HtmlUtil;
-
-import java.util.concurrent.TimeoutException;
 
 @Beans
 public class MahjongListener {
     private static final String PHONE_GROUP = "==tellMeYourNameAndPhone==PHONE==";
     private static final String NAME_GROUP = "==tellMeYourNameAndPhone==NAME==";
+
     /**
      * @param groupMsg 手牌信息
      * @param sender   传输sender

@@ -1,20 +1,16 @@
 package top.kylinbot.demo.listener;
 
-import catcode.CatCodeUtil;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.OnGroup;
-import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.GroupMsg;
-import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
-import top.kylinbot.demo.service.MahjongService.MahjongTestService;
-import top.kylinbot.demo.service.NsfwService;
-import top.kylinbot.demo.util.HtmlUtil;
-import top.kylinbot.demo.util.JsonUtil;
 
-import java.net.*;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.Enumeration;
 
 
