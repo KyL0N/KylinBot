@@ -21,15 +21,7 @@ public class CommonListener {
     @Filter(value = "帮助", trim = true, matchType = MatchType.EQUALS)
     @Filter(value = "help", trim = true, matchType = MatchType.EQUALS)
     public void sendHelpMsg(GroupMsg groupMsg, MsgSender msgSender) {
-        String helpMsg = new StringBuilder()
-                .append("所有命令:\n")
-                .append("NSFW图片: ").append(".uestc ").append(".zju ").append(".thu").append("\n")
-                .append("牌理:").append("!t ").append("\n  示例:!t 123s1p9p").append("\n")
-                .append("osu:\n")
-                .append("  绑定:").append("!oauth\n")
-                .append("  查询最近打图:").append("!kypr").append("\n")
-                .append("  个人信息:").append("!info")
-                .toString();
+        String helpMsg = CommonService.getHelpString();
         msgSender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), helpMsg);
     }
 

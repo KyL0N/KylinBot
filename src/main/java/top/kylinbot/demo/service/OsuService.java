@@ -210,7 +210,7 @@ public class OsuService extends RestTemplate {
      * @param name osu用户名, 用于查询未绑定用户信息
      * @return 返回用户信息
      */
-    public JSONObject getPlayerOsuInfo(String name) {
+    public static JSONObject getPlayerOsuInfo(String name) {
         return getPlayerInfo(name, "osu");
     }
 

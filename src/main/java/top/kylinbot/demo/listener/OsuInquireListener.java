@@ -28,8 +28,7 @@ public class OsuInquireListener extends OsuService {
         if (osuNickName == null) {
             sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "尚未绑定, 请发送!oauth以绑定bot");
         }
-        JSONObject testInfo = getPlayerOsuInfo(osuNickName);
-        String info = JsonUtil.parseOsuInfoJson(testInfo);
+        String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), info);
     }
 
@@ -61,7 +60,7 @@ public class OsuInquireListener extends OsuService {
     @Filter(value = "!info", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendOtherPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
         if (groupMsg.getMsg().length() == 5) {
-            System.out.println("no name");
+//            System.out.println("no name");
             return;
         }
         String osuNickName = groupMsg.getMsg().replace("!info ", "");
