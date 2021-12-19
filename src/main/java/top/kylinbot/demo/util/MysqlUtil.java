@@ -35,13 +35,15 @@ public class MysqlUtil {
     public static void writeUser(osuUser osuPlayer) {
         try {
             Connection con = getConnect();
-            String query = "INSERT INTO osuDB.osu VALUES ('" + osuPlayer.getQQ() + "','"
-                    + osuPlayer.getOsuID() + "','" + osuPlayer.getAccessToken() + "','"
-                    + osuPlayer.getRefreshToken() + "','" + osuPlayer.getExpire() + "','"
-                    + osuPlayer.getId() +
-                    "')";
+            String query = "INSERT INTO osuDB.osu VALUES(?,?,?,?,?,?)";
 //            System.out.println(query);
             PreparedStatement st = con.prepareStatement(query);
+            st.setLong(1, osuPlayer.getQQ());
+            st.setString(2, osuPlayer.getOsuID());
+            st.setString(3, osuPlayer.getAccessToken());
+            st.setString(4, osuPlayer.getRefreshToken());
+            st.setLong(5, osuPlayer.getExpire());
+            st.setInt(6, osuPlayer.getId());
             st.executeUpdate();
             System.out.println("executeSuccess");
         } catch (SQLException ex) {
