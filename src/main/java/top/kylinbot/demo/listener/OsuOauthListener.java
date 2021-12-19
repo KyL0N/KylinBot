@@ -20,38 +20,47 @@ public class OsuOauthListener extends OsuService {
     @OnPrivate
     @Filter(value = "!oauth", trim = true, matchType = MatchType.EQUALS)
     public void sendOauth(PrivateMsg privateMsg, MsgSender sender) {
-        int accountCode = Integer.parseInt(privateMsg.getAccountInfo().getAccountCode());
+        String accountCode = privateMsg.getAccountInfo().getAccountCode();
+        long qq = Long.parseLong(accountCode);
         String url = getOauthUrl(privateMsg.getAccountInfo().getAccountCode());
         sender.SENDER.sendPrivateMsg(accountCode, url);
-        osuUser user = new osuUser(accountCode, null);
-
-        if (OsuBindService.bindServer(8888, user) == 0) {
+        sender.SENDER.sendPrivateMsg(accountCode, "请在2分钟内完成绑定操作");
+        osuUser user = new osuUser(qq, null);
+        int status = OsuBindService.bindServer(8888, user);
+        if (status == 0) {
             //通过bindServer得到的refreshToken来获取更多的token信息
             getToken(user);
             getPlayerInfo(user, "osu");
             MysqlUtil.writeUser(user);
             sender.SENDER.sendPrivateMsg(accountCode, "绑定成功");
-        } else {
-            sender.SENDER.sendPrivateMsg(accountCode, "绑定失败或超时");
+        } else if (status == 1) {
+            sender.SENDER.sendPrivateMsg(accountCode, "绑定超时");
+        } else if (status == 2) {
+            sender.SENDER.sendPrivateMsg(accountCode, "绑定失败");
         }
     }
 
     @OnGroup
     @Filter(value = "!oauth", trim = true, matchType = MatchType.EQUALS)
     public void sendOauth(GroupMsg groupMsg, MsgSender sender) {
-        int accountCode = Integer.parseInt(groupMsg.getAccountInfo().getAccountCode());
+        String accountCode = groupMsg.getAccountInfo().getAccountCode();
+        long qq = Long.parseLong(accountCode);
         String url = getOauthUrl(groupMsg.getAccountInfo().getAccountCode());
-        sender.SENDER.sendPrivateMsg(accountCode, url);
-        osuUser user = new osuUser(accountCode, null);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), url);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "请在2分钟内完成绑定操作");
+        osuUser user = new osuUser(qq, null);
 
-        if (OsuBindService.bindServer(8888, user) == 0) {
+        int status = OsuBindService.bindServer(8888, user);
+        if (status == 0) {
             //通过bindServer得到的refreshToken来获取更多的token信息
             getToken(user);
             getPlayerInfo(user, "osu");
             MysqlUtil.writeUser(user);
-            sender.SENDER.sendPrivateMsg(groupMsg.getGroupInfo().getGroupCode(), "绑定成功");
-        } else {
-            sender.SENDER.sendPrivateMsg(groupMsg.getGroupInfo().getGroupCode(), "绑定失败或超时");
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "绑定成功");
+        } else if (status == 1) {
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "绑定超时");
+        } else if (status == 2) {
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "绑定失败");
         }
     }
 
