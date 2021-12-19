@@ -13,7 +13,12 @@ public class OsuInquireService extends OsuService {
     }
 
     public String parseRecentScoreJson(JSONArray js) {
-        JSONObject object = js.getJSONObject(0);
+        JSONObject object;
+        try {
+            object = js.getJSONObject(0);
+        } catch (IndexOutOfBoundsException e) {
+            return "你最近还没有打过图呢";
+        }
         JSONObject statistics = object.getJSONObject("statistics");
         JSONObject beatmap = object.getJSONObject("beatmap");
         long bid = beatmap.getLong("id");
