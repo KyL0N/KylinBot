@@ -32,6 +32,27 @@ code=yourQQcode
 password=yourQQpasswd
 ```
 
+
+open [src/main/resources](src/main/resources) create a file name `KylinBot.properties` 
+put in as followed
+
+```properties
+#MySQL
+MysqlUrl=jdbc:mysql://xxx.xxx:3306/xxx?useSSL=false #your Mysql Database url
+MysqlUser=xxx                                       #Username
+MysqlPassword=xxx                                   #pwd
+#osuClient
+oauthID=114514                                      #your osu client id
+redirectUrl=https://xxx.xxx                         #recall uri
+oauthToken=xxxxxxxxxxxxx                            #client key
+api=https://osu.ppy.sh/api/v2/
+#tillerino
+#https://ppaddict.tillerino.org/
+tillerinoURL=https://api.tillerino.org
+TillerinoBotKey=xxxxxxxxxx                          #in https://ppaddict.tillerino.org/ sign up a user and get key
+```
+
+
 **Please Make Sure Your QQ And Passwd Wouldn't Leak, If Your Private Information was Leaked And Make Property Loss Due To This Project, I Am Not Responsible For It**
 
 - Before Running

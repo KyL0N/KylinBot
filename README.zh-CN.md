@@ -25,12 +25,31 @@ git clone https://github.com/KyL0N/KylinBot.git
 
 - 配置文件
 
-打开文件夹  [src/main/](src/main/resources)  并创建一个名为 simbot-bots 的文件夹，在文件夹中创建 `yourBot1.bot` 文件，填入
+打开文件夹  [src/main/resources](src/main/resources)  并创建一个名为 simbot-bots 的文件夹，在文件夹中创建 `yourBot1.bot` 文件，填入
 
 
 ```yaml
 code=QQ号
 password=QQ密码
+```
+
+打开文件夹  [src/main/resources](src/main/resources)  再创建一个文件名为 `KylinBot.properties` 的文件
+填入
+
+```properties
+#MySQL
+MysqlUrl=jdbc:mysql://xxx.xxx:3306/xxx?useSSL=false 此处填入数据库地址
+MysqlUser=xxx                                       用户名
+MysqlPassword=xxx                                   密码
+#osuClient
+oauthID=114514                                      在osu.ppy.sh处创建的客户端ID
+redirectUrl=https://xxx.xxx                         应用回调链接
+oauthToken=xxxxxxxxxxxxx                            客户端密钥
+api=https://osu.ppy.sh/api/v2/
+#tillerino
+#https://ppaddict.tillerino.org/
+tillerinoURL=https://api.tillerino.org
+TillerinoBotKey=xxxxxxxxxx                          在https://ppaddict.tillerino.org/所创建的用户的密钥
 ```
 
 **请务必确认 QQ 号 QQ 密码不会泄露，因此项目造成的个人信息泄露以及财产损失，本人概不负责**
