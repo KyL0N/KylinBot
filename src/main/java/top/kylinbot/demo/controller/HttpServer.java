@@ -2,28 +2,31 @@ package top.kylinbot.demo.controller;
 
 import top.kylinbot.demo.modle.osuUser;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
 public class HttpServer implements Runnable {
 
-    private ServerSocket serverSocket;
+    private final ServerSocket serverSocket;
 
     public HttpServer(int port) throws IOException {
         serverSocket = new ServerSocket(port);
+        serverSocket.setSoTimeout(1000 * 120);//设置超时
         System.out.println("Server端口" + port + "将一直等待你的到来");
     }
 
     public int Run(osuUser user) {
 
         try {
+            long qq = user.getQQ();
             System.out.println("等待远程连接，端口号为：" + serverSocket.getLocalPort() + "...");
             Socket server = serverSocket.accept();
             System.out.println("远程主机地址：" + server.getRemoteSocketAddress());
             HttpRequestHandler request = new HttpRequestHandler(server);
-            user.setRefreshToken(request.handle());
+            user.setRefreshToken(request.handle(qq));
             //关闭socket连接
             server.close();
             //关闭ServerSocket监听
@@ -31,12 +34,12 @@ public class HttpServer implements Runnable {
             return 0;
         } catch (SocketTimeoutException s) {
             System.out.println("Socket timed out!");
-
+//            s.printStackTrace();
             return 1;
         } catch (IOException e) {
-            System.out.println("Socket timed out!");
+            System.out.println("Socket error!");
             e.printStackTrace();
-            return 1;
+            return 2;
         }
 
     }
@@ -46,7 +49,7 @@ public class HttpServer implements Runnable {
 
     }
 
-    public void stop(){
+    public void stop() {
         try {
             serverSocket.close();
         } catch (IOException e) {
@@ -57,13 +60,13 @@ public class HttpServer implements Runnable {
 }
 
 class HttpRequestHandler {
-    private Socket socket;
+    private final Socket socket;
 
     public HttpRequestHandler(Socket socket) {
         this.socket = socket;
     }
 
-    public String handle() throws IOException {
+    public String handle(long qq) throws IOException {
         StringBuilder builder = new StringBuilder();
         InputStreamReader isr = new InputStreamReader(socket.getInputStream());
         char[] charBuf = new char[1024];
@@ -78,7 +81,7 @@ class HttpRequestHandler {
         GetString[0] = GetString[0].replace(" HTTP/1.1", "");
         GetString[0] = GetString[0].replace("GET /?", "");
         GetString[0] = GetString[0].replace("code=", "");
-        GetString[0] = GetString[0].replace("&state=1579525246", "");
+        GetString[0] = GetString[0].replace("&state=" + qq, "");
 
         System.out.println(GetString[0]);
         socket.getOutputStream().
