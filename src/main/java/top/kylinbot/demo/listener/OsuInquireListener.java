@@ -1,7 +1,5 @@
 package top.kylinbot.demo.listener;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import love.forte.common.ioc.annotation.Beans;
 import love.forte.simbot.annotation.Filter;
 import love.forte.simbot.annotation.FilterValue;
@@ -11,8 +9,6 @@ import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
-import org.tillerino.osuApiModel.Mods;
-import org.tillerino.osuApiModel.types.BitwiseMods;
 import top.kylinbot.demo.service.OsuInquireService;
 import top.kylinbot.demo.service.OsuService;
 import top.kylinbot.demo.util.JsonUtil;
@@ -84,7 +80,7 @@ public class OsuInquireListener extends OsuService {
     public void sendPlayerRecentScore(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
         String msg = inquireService.parsePlayerRecentScore(qq);
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg.toString());
+        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg);
     }
 
     @OnGroup
@@ -106,107 +102,15 @@ public class OsuInquireListener extends OsuService {
     @OnGroup
     @Filter(value = "!kypp {{beatmap,\\d+}} {{mods,\\w+}}", matchType = MatchType.REGEX_MATCHES)
     public void sendBeatmapPerformancePoint(GroupMsg groupMsg, MsgSender sender, @FilterValue("beatmap") long beatmap, @FilterValue("mods") String mods) {
-        @BitwiseMods long mod = 0;
-        if (mods.contains("NF")) {
-            mod = Mods.add(mod, Mods.NoFail);
-        }
-        if (mods.contains("EZ")) {
-            mod = Mods.add(mod, Mods.Easy);
-        }
-        if (mods.contains("HD")) {
-            mod = Mods.add(mod, Mods.Hidden);
-        }
-        if (mods.contains("HR")) {
-            mod = Mods.add(mod, Mods.HardRock);
-        }
-        if (mods.contains("DT")) {
-            mod = Mods.add(mod, Mods.DoubleTime);
-        }
-        if (mods.contains("HT")) {
-            mod = Mods.add(mod, Mods.HalfTime);
-        }
-        if (mods.contains("NC")) {
-            mod = Mods.add(mod, Mods.Nightcore);
-        }
-        if (mods.contains("FL")) {
-            mod = Mods.add(mod, Mods.Flashlight);
-        }
-        if (mods.contains("SO")) {
-            mod = Mods.add(mod, Mods.SpunOut);
-        }
-        JSONObject beatmapObject = getMapPerformancePoint(beatmap, mod);
-        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
-        String diff = beatmapObject.getString("starDiff");
-        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
-        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
-        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
-        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
-        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
-        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
-        StringBuilder msg = new StringBuilder();
-        msg.append("BID:").append(beatmap).append("\n")
-                .append("star:").append(diff).append("\n")
-                .append("100%:").append(acc_100).append("\n")
-                .append("99%:").append(acc_99).append("\n")
-                .append("98%:").append(acc_98).append("\n")
-                .append("97%:").append(acc_97).append("\n")
-                .append("95%:").append(acc_95).append("\n")
-                .append("93%:").append(acc_93).append("\n")
-                .append("Mods:").append(mods);
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg.toString());
+        String msg = inquireService.parsePerformancePoint(beatmap, mods);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
     }
 
     @OnPrivate
     @Filter(value = "!kypp {{beatmap,\\d+}} {{mods,\\w+}}", matchType = MatchType.REGEX_MATCHES)
     public void sendBeatmapPerformancePoint(PrivateMsg privateMsg, MsgSender sender, @FilterValue("beatmap") long beatmap, @FilterValue("mods") String mods) {
-        @BitwiseMods long mod = 0;
-        if (mods.contains("NF")) {
-            mod = Mods.add(mod, Mods.NoFail);
-        }
-        if (mods.contains("EZ")) {
-            mod = Mods.add(mod, Mods.Easy);
-        }
-        if (mods.contains("HD")) {
-            mod = Mods.add(mod, Mods.Hidden);
-        }
-        if (mods.contains("HR")) {
-            mod = Mods.add(mod, Mods.HardRock);
-        }
-        if (mods.contains("DT")) {
-            mod = Mods.add(mod, Mods.DoubleTime);
-        }
-        if (mods.contains("HT")) {
-            mod = Mods.add(mod, Mods.HalfTime);
-        }
-        if (mods.contains("NC")) {
-            mod = Mods.add(mod, Mods.Nightcore);
-        }
-        if (mods.contains("FL")) {
-            mod = Mods.add(mod, Mods.Flashlight);
-        }
-        if (mods.contains("SO")) {
-            mod = Mods.add(mod, Mods.SpunOut);
-        }
-        JSONObject beatmapObject = getMapPerformancePoint(beatmap, mod);
-        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
-        String diff = beatmapObject.getString("starDiff");
-        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
-        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
-        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
-        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
-        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
-        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
-        StringBuilder msg = new StringBuilder();
-        msg.append("BID:").append(beatmap).append("\n")
-                .append("star:").append(diff).append("\n")
-                .append("100%:").append(acc_100).append("\n")
-                .append("99%:").append(acc_99).append("\n")
-                .append("98%:").append(acc_98).append("\n")
-                .append("97%:").append(acc_97).append("\n")
-                .append("95%:").append(acc_95).append("\n")
-                .append("93%:").append(acc_93).append("\n")
-                .append("Mods:").append(mods);
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg.toString());
+        String msg = inquireService.parsePerformancePoint(beatmap, mods);
+        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg);
 
     }
 
