@@ -27,7 +27,7 @@ public class OsuService extends RestTemplate {
     private static String redirectUrl;
     private static String oauthToken;
     private static String URL;
-    private static String tillerinoURL = "https://api.tillerino.org";
+    private static String tillerinoURL;
     public static String tillerinoKey;
 
     static {
@@ -39,6 +39,7 @@ public class OsuService extends RestTemplate {
             redirectUrl = props.getProperty("redirectUrl");
             oauthToken = props.getProperty("oauthToken");
             URL = props.getProperty("api");
+            tillerinoURL = props.getProperty("tillerinoURL");
             tillerinoKey = props.getProperty("TillerinoBotKey");
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,7 +86,7 @@ public class OsuService extends RestTemplate {
 
     /***
      * 拿到机器人访客令牌
-     * @return
+     * @return token
      */
     public String getToken() {
         if (!client.isExpire()) {
@@ -101,8 +102,10 @@ public class OsuService extends RestTemplate {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(body, headers);
         JSONObject s = postForObject(url, httpEntity, JSONObject.class);
+        assert s != null;
         client.setAccessToken(s.getString("access_token"));
         client.setNextExpireTime(s.getLong("expires_in"));
+
         return client.getAccessToken();
     }
 
@@ -122,6 +125,7 @@ public class OsuService extends RestTemplate {
 
         HttpEntity<?> httpEntity = new HttpEntity<>(body, headers);
         JSONObject s = postForObject(url, httpEntity, JSONObject.class);
+        assert s != null;
         user.setAccessToken(s.getString("access_token"));
         user.setRefreshToken(s.getString("refresh_token"));
         user.setNextExpireTime(s.getLong("expires_in"));
@@ -165,8 +169,10 @@ public class OsuService extends RestTemplate {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_FORM_URLENCODED));
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONObject> c = exchange(url, HttpMethod.GET, httpEntity, JSONObject.class);
-        user.setOsuID(c.getBody().getString("username"));
-        user.setId(c.getBody().getIntValue("id"));
+        JSONObject key = c.getBody();
+        assert key != null;
+        user.setOsuID(key.getString("username"));
+        user.setId(key.getIntValue("id"));
         return c.getBody();
     }
 
@@ -229,16 +235,12 @@ public class OsuService extends RestTemplate {
     }
 
 
-//    public JSONObject getPlayerRecentScore(String name){
-//
-//    }
-
     /***
      * 获得score(最近游玩列表
-     * @param user
-     * @param s
-     * @param e
-     * @return
+     * @param user user
+     * @param s s
+     * @param e e
+     * @return JSON数据
      */
     public JSONArray getOsuRecent(osuUser user, int s, int e) {
         return getRecent(user, "osu", s, e);
@@ -268,18 +270,18 @@ public class OsuService extends RestTemplate {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Bearer " + user.getAccessToken(this));
 
-        HttpEntity httpEntity = new HttpEntity(headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
         return c.getBody();
     }
 
     /***
      * 包含fail的
-     * @param user
-     * @param mode
-     * @param s
-     * @param e
-     * @return
+     * @param user user
+     * @param mode mode
+     * @param s s
+     * @param e e
+     * @return JSON数据
      */
     public JSONArray getAllRecent(osuUser user, String mode, int s, int e) {
         URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + user.getOsuID() + "/scores/recent")
@@ -294,7 +296,7 @@ public class OsuService extends RestTemplate {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Bearer " + user.getAccessToken(this));
 
-        HttpEntity httpEntity = new HttpEntity(headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
         return c.getBody();
     }
@@ -311,8 +313,8 @@ public class OsuService extends RestTemplate {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Bearer " + getToken());
 
-        HttpEntity httpEntity = new HttpEntity(headers);
-        ResponseEntity<JSONArray> c = null;
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<JSONArray> c;
         try {
             c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
         } catch (RestClientException restClientException) {
@@ -335,7 +337,7 @@ public class OsuService extends RestTemplate {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("Authorization", "Bearer " + getToken());
 
-        HttpEntity httpEntity = new HttpEntity(headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
         return c.getBody();
     }
@@ -351,7 +353,7 @@ public class OsuService extends RestTemplate {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.set("api-key", tillerinoKey);
 
-        HttpEntity httpEntity = new HttpEntity(headers);
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<JSONObject> c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
         return c.getBody();
     }

@@ -26,7 +26,6 @@ public class osuUser {
     }
 
 
-
     public void setQQ(int qq) {
         this.qq = qq;
     }
