@@ -13,12 +13,15 @@ import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
 import org.tillerino.osuApiModel.Mods;
 import org.tillerino.osuApiModel.types.BitwiseMods;
+import top.kylinbot.demo.service.OsuInquireService;
 import top.kylinbot.demo.service.OsuService;
 import top.kylinbot.demo.util.JsonUtil;
 import top.kylinbot.demo.util.MysqlUtil;
 
 @Beans
 public class OsuInquireListener extends OsuService {
+    OsuInquireService inquireService = new OsuInquireService();
+
 
     @OnPrivate
     @Filter(value = "!info", matchType = MatchType.REGEX_MATCHES)
@@ -72,81 +75,15 @@ public class OsuInquireListener extends OsuService {
     @Filter(value = "!kypr", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPlayerRecentScore(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
-        int id = MysqlUtil.getIDByQQ(qq);
-        JSONArray js = getOsuRecent(id, 0, 1);
-        JSONObject object = js.getJSONObject(0);
-        JSONObject statistics = object.getJSONObject("statistics");
-        JSONObject beatmap = object.getJSONObject("beatmap");
-        long bid = beatmap.getLong("id");
-        Double AR = beatmap.getDoubleValue("ar");
-        Double OD = beatmap.getDoubleValue("accuracy");
-        Double BPM = beatmap.getDoubleValue("bpm");
-        Double HP = beatmap.getDoubleValue("drain");
-        Double CS = beatmap.getDoubleValue("cs");
-
-        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
-        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
-        String diff = beatmapObject.getString("starDiff");
-        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
-        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
-        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
-        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
-        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
-        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
-        StringBuilder msg = new StringBuilder();
-        msg.append("BID:").append(bid).append("\n")
-                .append("CS").append(CS).append(" AR").append(AR).append(" OD").append(OD).append(" HP").append(HP).append("\n")
-                .append("BPM").append(BPM)
-                .append("star:").append(diff).append("\n")
-                .append("100%:").append(acc_100).append("\n")
-                .append("99%:").append(acc_99).append("\n")
-                .append("98%:").append(acc_98).append("\n")
-                .append("97%:").append(acc_97).append("\n")
-                .append("95%:").append(acc_95).append("\n")
-                .append("93%:").append(acc_93).append("\n")
-                .append("Mods:").append("None");
-        JSONArray mods = object.getJSONArray("mods");
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg.toString());
+        String msg = inquireService.parsePlayerRecentScore(qq);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
     }
 
     @OnPrivate
     @Filter(value = "!kypr", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPlayerRecentScore(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
-        int id = MysqlUtil.getIDByQQ(qq);//向数据库查询用户id,
-        JSONArray js = getOsuRecent(id, 0, 1);//通过用户id获取最近打图
-        JSONObject object = js.getJSONObject(0);
-        JSONObject statistics = object.getJSONObject("statistics");
-        JSONObject beatmap = object.getJSONObject("beatmap");
-        long bid = beatmap.getLong("id");
-        Double AR = beatmap.getDoubleValue("ar");
-        Double OD = beatmap.getDoubleValue("accuracy");
-        Double BPM = beatmap.getDoubleValue("bpm");
-        Double HP = beatmap.getDoubleValue("drain");
-        Double CS = beatmap.getDoubleValue("cs");
-
-        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
-        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
-        String diff = beatmapObject.getString("starDiff");
-        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
-        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
-        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
-        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
-        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
-        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
-        StringBuilder msg = new StringBuilder();
-        msg.append("BID:").append(bid).append("\n")
-                .append("CS").append(CS).append(" AR").append(AR).append(" OD").append(OD).append(" HP").append(HP).append("\n")
-                .append("BPM").append(BPM)
-                .append("star:").append(diff).append("\n")
-                .append("100%:").append(acc_100).append("\n")
-                .append("99%:").append(acc_99).append("\n")
-                .append("98%:").append(acc_98).append("\n")
-                .append("97%:").append(acc_97).append("\n")
-                .append("95%:").append(acc_95).append("\n")
-                .append("93%:").append(acc_93).append("\n")
-                .append("Mods:").append("None");
-        JSONArray mods = object.getJSONArray("mods");
+        String msg = inquireService.parsePlayerRecentScore(qq);
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg.toString());
     }
 
@@ -154,82 +91,16 @@ public class OsuInquireListener extends OsuService {
     @Filter(value = "!kyre", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPlayerAllRecentScore(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
-        int id = MysqlUtil.getIDByQQ(qq);
-        JSONArray js = getOsuAllRecent(id, 0, 1);
-        JSONObject object = js.getJSONObject(0);
-        JSONObject statistics = object.getJSONObject("statistics");
-        JSONObject beatmap = object.getJSONObject("beatmap");
-        long bid = beatmap.getLong("id");
-        Double AR = beatmap.getDoubleValue("ar");
-        Double OD = beatmap.getDoubleValue("accuracy");
-        Double BPM = beatmap.getDoubleValue("bpm");
-        Double HP = beatmap.getDoubleValue("drain");
-        Double CS = beatmap.getDoubleValue("cs");
-
-        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
-        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
-        String diff = beatmapObject.getString("starDiff");
-        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
-        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
-        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
-        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
-        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
-        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
-        StringBuilder msg = new StringBuilder();
-        msg.append("BID:").append(bid).append("\n")
-                .append("CS").append(CS).append(" AR").append(AR).append(" OD").append(OD).append(" HP").append(HP).append("\n")
-                .append("BPM").append(BPM)
-                .append("star:").append(diff).append("\n")
-                .append("100%:").append(acc_100).append("\n")
-                .append("99%:").append(acc_99).append("\n")
-                .append("98%:").append(acc_98).append("\n")
-                .append("97%:").append(acc_97).append("\n")
-                .append("95%:").append(acc_95).append("\n")
-                .append("93%:").append(acc_93).append("\n")
-                .append("Mods:").append("None");
-        JSONArray mods = object.getJSONArray("mods");
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg.toString());
+        String msg = inquireService.parsePlayerAllRecentScore(qq);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
     }
 
     @OnPrivate
     @Filter(value = "!kyre", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendPlayerAllRecentScore(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
-        int id = MysqlUtil.getIDByQQ(qq);//向数据库查询用户id,
-        JSONArray js = getOsuAllRecent(id, 0, 1);//通过用户id获取最近打图
-        JSONObject object = js.getJSONObject(0);
-        JSONObject statistics = object.getJSONObject("statistics");
-        JSONObject beatmap = object.getJSONObject("beatmap");
-        long bid = beatmap.getLong("id");
-        Double AR = beatmap.getDoubleValue("ar");
-        Double OD = beatmap.getDoubleValue("accuracy");
-        Double BPM = beatmap.getDoubleValue("bpm");
-        Double HP = beatmap.getDoubleValue("drain");
-        Double CS = beatmap.getDoubleValue("cs");
-
-        JSONObject beatmapObject = getMapPerformancePoint(bid, 0);
-        JSONObject ppForAcc = beatmapObject.getJSONObject("ppForAcc");
-        String diff = beatmapObject.getString("starDiff");
-        String acc_93 = ppForAcc.getString("0.93").substring(0, 5);
-        String acc_95 = ppForAcc.getString("0.95").substring(0, 5);
-        String acc_97 = ppForAcc.getString("0.97").substring(0, 5);
-        String acc_98 = ppForAcc.getString("0.98").substring(0, 5);
-        String acc_99 = ppForAcc.getString("0.99").substring(0, 5);
-        String acc_100 = ppForAcc.getString("1.0").substring(0, 5);
-        StringBuilder msg = new StringBuilder();
-        msg.append("BID:").append(bid).append("\n")
-                .append("CS").append(CS).append(" AR").append(AR).append(" OD").append(OD).append(" HP").append(HP).append("\n")
-                .append("BPM").append(BPM)
-                .append("star:").append(diff).append("\n")
-                .append("100%:").append(acc_100).append("\n")
-                .append("99%:").append(acc_99).append("\n")
-                .append("98%:").append(acc_98).append("\n")
-                .append("97%:").append(acc_97).append("\n")
-                .append("95%:").append(acc_95).append("\n")
-                .append("93%:").append(acc_93).append("\n")
-                .append("Mods:").append("None");
-        JSONArray mods = object.getJSONArray("mods");
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg.toString());
+        String msg = inquireService.parsePlayerAllRecentScore(qq);
+        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), msg);
     }
 
     @OnGroup
