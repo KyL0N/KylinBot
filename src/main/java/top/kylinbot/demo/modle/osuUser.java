@@ -3,7 +3,7 @@ package top.kylinbot.demo.modle;
 import top.kylinbot.demo.service.OsuService;
 
 public class osuUser {
-    private int qq;
+    private long qq;
     private int id;
     private String osuID;
     private String accessToken;
@@ -19,6 +19,13 @@ public class osuUser {
         this.qq = qq;
         this.refreshToken = refreshToken;
     }
+
+    public osuUser(long qq, String refreshToken) {
+        this.qq = qq;
+        this.refreshToken = refreshToken;
+    }
+
+
 
     public void setQQ(int qq) {
         this.qq = qq;
@@ -36,7 +43,7 @@ public class osuUser {
         this.accessToken = accessToken;
     }
 
-    public int getQQ() {
+    public long getQQ() {
         return qq;
     }
 
