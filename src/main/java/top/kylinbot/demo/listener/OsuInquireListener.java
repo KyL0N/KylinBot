@@ -26,6 +26,7 @@ public class OsuInquireListener extends OsuService {
         String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
         if (osuNickName == null) {
             sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "尚未绑定, 请发送!oauth以绑定bot");
+            return;
         }
         String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), info);
@@ -38,6 +39,7 @@ public class OsuInquireListener extends OsuService {
         String osuNickName = MysqlUtil.getOsuIDByQQ(qq);
         if (osuNickName == null) {
             sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "尚未绑定, 请发送!oauth以绑定bot");
+            return;
         }
         String info = JsonUtil.parseOsuInfoJson(getPlayerOsuInfo(osuNickName));
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), info);
