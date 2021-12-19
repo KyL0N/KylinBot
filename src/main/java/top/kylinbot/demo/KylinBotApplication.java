@@ -8,15 +8,8 @@ import love.forte.simbot.core.SimbotApp;
 import love.forte.simbot.core.SimbotContext;
 import love.forte.simbot.core.SimbotProcess;
 import org.jetbrains.annotations.NotNull;
-import top.kylinbot.demo.service.MahjongService.MahjongTestService;
-import top.kylinbot.demo.service.OsuService;
-import top.kylinbot.demo.util.HtmlUtil;
 
-
-import javax.script.ScriptException;
 import java.time.LocalDateTime;
-
-import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 
 
 @SimbotApplication

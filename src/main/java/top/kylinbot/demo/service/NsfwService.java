@@ -19,7 +19,7 @@ import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 public class NsfwService {
     private static final String iw233 = "https://iw233.cn/API/Random.php";
     private static final String toubiec = "https://acg.toubiec.cn/random.php?ret=json";//    original
-//    regular
+    //    regular
 //    small
 //    thumb
 //    mini
@@ -104,7 +104,6 @@ public class NsfwService {
         System.out.println("url:" + url);
         return url;
     }
-
 
 
     public String parseJson(String string) {

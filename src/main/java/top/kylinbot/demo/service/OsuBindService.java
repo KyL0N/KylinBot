@@ -12,7 +12,7 @@ public class OsuBindService {
             int status = t.Run(user);
             t.stop();
             return status;
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return 1;
