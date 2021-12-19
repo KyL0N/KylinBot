@@ -4,7 +4,6 @@ import top.kylinbot.demo.controller.HttpServer;
 import top.kylinbot.demo.modle.osuUser;
 
 import java.io.IOException;
-import java.net.SocketException;
 
 public class OsuBindService {
     public static int bindServer(Integer port, osuUser user) {

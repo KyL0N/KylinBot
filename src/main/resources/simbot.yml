@@ -3,4 +3,5 @@ simbot:
     bot-resource-type: RESOURCE_FIRST
   component:
     mirai:
-      protocol: ANDROID_PHONE
+      protocol: ANDROID_PAD
+#      PHONE　WATCH
