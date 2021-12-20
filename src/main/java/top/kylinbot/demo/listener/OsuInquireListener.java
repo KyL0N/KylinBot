@@ -1,13 +1,11 @@
 package top.kylinbot.demo.listener;
 
 import love.forte.common.ioc.annotation.Beans;
-import love.forte.simbot.annotation.Filter;
-import love.forte.simbot.annotation.FilterValue;
-import love.forte.simbot.annotation.OnGroup;
-import love.forte.simbot.annotation.OnPrivate;
+import love.forte.simbot.annotation.*;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
+import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MatchType;
 import top.kylinbot.demo.service.OsuInquireService;
 import top.kylinbot.demo.service.OsuService;
@@ -18,8 +16,8 @@ import top.kylinbot.demo.util.MysqlUtil;
 public class OsuInquireListener extends OsuService {
     OsuInquireService inquireService = new OsuInquireService();
 
-
     @OnPrivate
+    @Priority(PriorityConstant.FIRST)
     @Filter(value = "!info", matchType = MatchType.REGEX_MATCHES)
     public void sendPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
@@ -33,6 +31,7 @@ public class OsuInquireListener extends OsuService {
     }
 
     @OnGroup
+    @Priority(PriorityConstant.FIRST)
     @Filter(value = "!info", matchType = MatchType.REGEX_MATCHES)
     public void sendPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
