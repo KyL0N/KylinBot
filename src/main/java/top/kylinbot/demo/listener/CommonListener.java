@@ -10,6 +10,7 @@ import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.FilterTargets;
 import love.forte.simbot.filter.MatchType;
+import org.apache.logging.log4j.util.ProcessIdUtil;
 import top.kylinbot.demo.service.CommonService;
 
 @Beans
@@ -58,6 +59,18 @@ public class CommonListener {
     public void sendNudge(PrivateMsg privateMsg, MsgSender msgSender) {
         String cat1 = CommonService.getNudge(privateMsg.getAccountInfo().getAccountCode());
         msgSender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), cat1);
+    }
+
+    @OnPrivate
+    @Filter(value = "!pid", matchType = MatchType.EQUALS)
+    public void sendPID(PrivateMsg privateMsg, MsgSender msgSender) {
+        msgSender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), ProcessIdUtil.getProcessId());
+    }
+
+    @OnGroup
+    @Filter(value = "!pid", matchType = MatchType.EQUALS)
+    public void sendPID(GroupMsg groupMsg, MsgSender msgSender) {
+        msgSender.SENDER.sendPrivateMsg(groupMsg.getGroupInfo().getGroupCode(), ProcessIdUtil.getProcessId());
     }
 
 }
