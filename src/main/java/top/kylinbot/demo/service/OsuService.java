@@ -6,6 +6,7 @@ import love.forte.simbot.core.configuration.ComponentBeans;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -230,7 +231,13 @@ public class OsuService extends RestTemplate {
         headers.set("Authorization", "Bearer " + getToken());
 
         HttpEntity<?> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<JSONObject> c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
+        ResponseEntity<JSONObject> c;
+        try {
+            c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
+        } catch (HttpClientErrorException e) {
+            // 默认使用osu id查询，查询失败换用id查询
+            return getPlayerOsuInfo(Integer.parseInt(name));
+        }
         return c.getBody();
     }
 
@@ -357,4 +364,6 @@ public class OsuService extends RestTemplate {
         ResponseEntity<JSONObject> c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
         return c.getBody();
     }
+
+
 }
