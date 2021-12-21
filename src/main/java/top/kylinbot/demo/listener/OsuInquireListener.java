@@ -152,5 +152,15 @@ public class OsuInquireListener extends OsuService {
         String msg = inquireService.parseBestBeatmapList(id, bp);
         senders.SENDER.sendPrivateMsg(qq, msg);
     }
+
+    @OnGroup
+    @Filter(value = "!kyscore {{bid,\\d+}}", matchType = MatchType.REGEX_MATCHES)
+    public void sendBeatmapScore(GroupMsg groupMsg, MsgSender sender, @FilterValue("bid") int bid) {
+        String qq = groupMsg.getAccountInfo().getAccountCode();
+        int id = MysqlUtil.getIDByQQ(qq);
+        getScore(bid, id);
+    }
+
+
 }
                                                                                   

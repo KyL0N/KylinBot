@@ -446,4 +446,54 @@ public class OsuService extends RestTemplate {
         return c.getBody();
     }
 
+    /**
+     * 获取用户特定谱面成绩
+     *
+     * @param bid  beatmap id
+     * @param user user
+     * @return 返回get到的数据
+     */
+    public JSONObject getScore(int bid, osuUser user) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "beatmaps/" + bid + "/scores/users/" + user.getOsuID())
+                .queryParam("mode", "osu")
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + user.getAccessToken(this));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<JSONObject> c = null;
+        try {
+            c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return c.getBody();
+    }
+
+    public JSONObject getScore(int bid, int uid) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "beatmaps/" + bid + "/scores/users/" + uid)
+                .queryParam("mode", "osu")
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + getToken());
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<JSONObject> c = null;
+        try {
+            c = exchange(uri, HttpMethod.GET, httpEntity, JSONObject.class);
+        } catch (RestClientException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return c.getBody();
+    }
+
+
 }
