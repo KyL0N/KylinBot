@@ -110,13 +110,13 @@ public class NsfwPhotoListener extends NsfwService {
         int seed = (int) (Math.random() * 30);
         if (seed < 10) {
             url = url1;
-            System.out.println(seed + "\n");
+//            System.out.println(seed);
         } else if (seed < 20) {
             url = url2;
-            System.out.println(seed + "\n");
+//            System.out.println(seed);
         } else {
             url = url3;
-            System.out.println(seed + "\n");
+//            System.out.println(seed);
             String image = util.getStringTemplate().image(url);
             sender.SENDER.sendGroupMsg(msg.getGroupInfo().getGroupCode(), image);
             return;

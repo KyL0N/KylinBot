@@ -28,7 +28,7 @@ public class MahjongListener {
             result = HtmlUtil.getTenHouResult(tiles);
         } catch (Exception e) {
             sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "获取牌理超时或失败");
-            e.printStackTrace();
+//            e.printStackTrace();
             return;
         }
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), result);
@@ -47,7 +47,7 @@ public class MahjongListener {
             result = HtmlUtil.getTenHouResult(tiles);
         } catch (Exception e) {
             sender.SENDER.sendGroupMsg(privateMsg.getAccountInfo().getAccountCode(), "获取牌理超时或失败");
-            e.printStackTrace();
+//            e.printStackTrace();
             return;
         }
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), result);

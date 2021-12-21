@@ -56,7 +56,7 @@ public class DebugListener {
 //        }
         msgSender.SENDER.sendGroupMsg(334990945, "bot进入调试阶段，将中止进程");
         msgSender.SENDER.sendGroupMsg(278134001, "bot进入调试阶段，将中止进程");
-        msgSender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "发送完成" + getter.getBotInfo().getBotCode());
+//        msgSender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "发送完成" + getter.getBotInfo().getBotCode());
         botManager.destroyBot(getter.getBotInfo().getBotCode());
         System.exit(0);
     }
