@@ -1,11 +1,13 @@
 package top.kylinbot.demo.listener;
 
 import love.forte.common.ioc.annotation.Beans;
-import love.forte.simbot.annotation.*;
+import love.forte.simbot.annotation.Filter;
+import love.forte.simbot.annotation.FilterValue;
+import love.forte.simbot.annotation.OnGroup;
+import love.forte.simbot.annotation.OnPrivate;
 import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
-import love.forte.simbot.constant.PriorityConstant;
 import love.forte.simbot.filter.MatchType;
 import top.kylinbot.demo.service.OsuInquireService;
 import top.kylinbot.demo.service.OsuService;
@@ -115,5 +117,40 @@ public class OsuInquireListener extends OsuService {
 
     }
 
+    @OnGroup
+    @Filter(value = "!kybp", matchType = MatchType.REGEX_MATCHES)
+    public void sendBestBeatmapList(GroupMsg groupMsg, MsgSender senders) {
+        String qq = groupMsg.getAccountInfo().getAccountCode();
+        int id = MysqlUtil.getIDByQQ(qq);
+        String msg = inquireService.parseBestBeatmapList(id);
+        senders.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
+    }
+
+    @OnPrivate
+    @Filter(value = "!kybp", matchType = MatchType.REGEX_MATCHES)
+    public void sendBestBeatmapList(PrivateMsg privateMsg, MsgSender senders) {
+        String qq = privateMsg.getAccountInfo().getAccountCode();
+        int id = MysqlUtil.getIDByQQ(qq);
+        String msg = inquireService.parseBestBeatmapList(id);
+        senders.SENDER.sendPrivateMsg(qq, msg);
+    }
+
+    @OnGroup
+    @Filter(value = "!kybp {{best,\\d+}}", matchType = MatchType.REGEX_MATCHES)
+    public void sendBestBeatmap(GroupMsg groupMsg, MsgSender senders, @FilterValue("best") int bp) {
+        String qq = groupMsg.getAccountInfo().getAccountCode();
+        int id = MysqlUtil.getIDByQQ(qq);
+        String msg = inquireService.parseBestBeatmapList(id, bp);
+        senders.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
+    }
+
+    @OnPrivate
+    @Filter(value = "!kybp {{best,\\d+}}", matchType = MatchType.REGEX_MATCHES)
+    public void sendBestBeatmap(PrivateMsg privateMsg, MsgSender senders, @FilterValue("best") int bp) {
+        String qq = privateMsg.getAccountInfo().getAccountCode();
+        int id = MysqlUtil.getIDByQQ(qq);
+        String msg = inquireService.parseBestBeatmapList(id, bp);
+        senders.SENDER.sendPrivateMsg(qq, msg);
+    }
 }
                                                                                   

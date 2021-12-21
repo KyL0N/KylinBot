@@ -110,4 +110,28 @@ public class OsuInquireService extends OsuService {
         return pp.toString();
     }
 
+    public String parseBestBeatmapList(int id) {
+        JSONArray array = getOsuBestMap(id, 0, 100);
+//        System.out.println(array.toString());
+        StringBuilder builder = new StringBuilder();
+        builder.append("玩家").append(array.getJSONObject(0).getJSONObject("user").getString("username"))
+                .append("的bp:\n");
+        for (int i = 0; i < 100; i++) {
+            builder.append("#").append(i + 1)
+                    .append(Integer.valueOf(array.getJSONObject(i).getString("pp")).intValue())
+                    .append("\n");
+        }
+        return builder.toString();
+    }
+
+    public String parseBestBeatmapList(int id, int bp) {
+        JSONArray array = getOsuBestMap(id, 0, 100);
+//        System.out.println(array.toString());
+        StringBuilder builder = new StringBuilder();
+        builder.append("玩家").append(array.getJSONObject(0).getJSONObject("user").getString("username"))
+                .append("的bp:\n");
+        builder.append(array.getJSONObject(bp - 1).getString("pp")).append("\n");
+
+        return builder.toString();
+    }
 }

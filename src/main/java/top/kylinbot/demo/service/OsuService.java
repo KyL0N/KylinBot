@@ -365,5 +365,85 @@ public class OsuService extends RestTemplate {
         return c.getBody();
     }
 
+    /***
+     * 获得个人bp
+     * @param user
+     * @param s 开始坐标，最小为0
+     * @param e 列表长度 1-100之间
+     * @return
+     */
+    public JSONArray getOsuBestMap(osuUser user, int s, int e) {
+        return getBestMap(user, "osu", s, e);
+    }
+
+    public JSONArray getTaikoBestMap(osuUser user, int s, int e) {
+        return getBestMap(user, "taiko", s, e);
+    }
+
+    public JSONArray getCatchBestMap(osuUser user, int s, int e) {
+        return getBestMap(user, "fruits", s, e);
+    }
+
+    public JSONArray getManiaBestMap(osuUser user, int s, int e) {
+        return getBestMap(user, "mania", s, e);
+    }
+
+    public JSONArray getOsuBestMap(int id, int s, int e) {
+        return getBestMap(id, "osu", s, e);
+    }
+
+    public JSONArray getTaikoBestMap(int id, int s, int e) {
+        return getBestMap(id, "taiko", s, e);
+    }
+
+    public JSONArray getCatchBestMap(int id, int s, int e) {
+        return getBestMap(id, "fruits", s, e);
+    }
+
+    public JSONArray getManiaBestMap(int id, int s, int e) {
+        return getBestMap(id, "mania", s, e);
+    }
+
+    /***
+     * 获得某个模式的bp表
+     * @param user user
+     * @param mode 模式
+     * @param s 起始坐标
+     * @param e 长度
+     * @return
+     */
+    public JSONArray getBestMap(osuUser user, String mode, int s, int e) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + user.getOsuID() + "/scores/best")
+                .queryParam("mode", mode)
+                .queryParam("limit", e)
+                .queryParam("offset", s)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + user.getAccessToken(this));
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
+        return c.getBody();
+    }
+
+    public JSONArray getBestMap(int id, String mode, int s, int e) {
+        URI uri = UriComponentsBuilder.fromHttpUrl(URL + "users/" + id + "/scores/best")
+                .queryParam("mode", mode)
+                .queryParam("limit", e)
+                .queryParam("offset", s)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.set("Authorization", "Bearer " + getToken());
+
+        HttpEntity<?> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<JSONArray> c = exchange(uri, HttpMethod.GET, httpEntity, JSONArray.class);
+        return c.getBody();
+    }
 
 }
