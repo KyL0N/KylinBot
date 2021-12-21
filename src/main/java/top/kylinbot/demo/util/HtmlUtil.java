@@ -7,7 +7,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.net.URL;
 
 
 public class HtmlUtil {
@@ -19,13 +18,13 @@ public class HtmlUtil {
         wc.getOptions().setUseInsecureSSL(false);
         wc.getOptions().setCssEnabled(false); //禁用css支持
         //js运行错误时，是否抛出异常
-        wc.getOptions().setThrowExceptionOnScriptError(false);
+        wc.getOptions().setThrowExceptionOnScriptError(true);
 
         wc.getOptions().setThrowExceptionOnFailingStatusCode(false);
         //是否允许使用ActiveX
         wc.getOptions().setActiveXNative(false);
         //等待js时间
-        wc.waitForBackgroundJavaScript(600 * 1000);
+        wc.waitForBackgroundJavaScript(45 * 1000);
         wc.setAjaxController(new NicelyResynchronizingAjaxController());
         wc.getOptions().setTimeout(1000000);
         wc.getOptions().setDoNotTrackEnabled(false);

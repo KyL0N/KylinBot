@@ -18,16 +18,17 @@ public class MahjongListener {
     /**
      * @param groupMsg 手牌信息
      * @param sender   传输sender
-     * @throws Exception 获取html的错误信息
      */
     @OnGroup
     @Filter(value = "!t", matchType = MatchType.STARTS_WITH)
     public void sendTenHouResult(GroupMsg groupMsg, MsgSender sender) {
         String tiles = groupMsg.getMsg().replace("!t ", "");
-        String result = null;
+        String result;
         try {
             result = HtmlUtil.getTenHouResult(tiles);
         } catch (Exception e) {
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "获取牌理超时或失败");
+            e.printStackTrace();
             return;
         }
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), result);
@@ -41,10 +42,12 @@ public class MahjongListener {
     @Filter(value = "!t", trim = true, matchType = MatchType.STARTS_WITH)
     public void sendTenHouResult(PrivateMsg privateMsg, MsgSender sender) {
         String tiles = privateMsg.getMsg().replace("!t ", "");
-        String result = null;
+        String result;
         try {
             result = HtmlUtil.getTenHouResult(tiles);
         } catch (Exception e) {
+            sender.SENDER.sendGroupMsg(privateMsg.getAccountInfo().getAccountCode(), "获取牌理超时或失败");
+            e.printStackTrace();
             return;
         }
         sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), result);
