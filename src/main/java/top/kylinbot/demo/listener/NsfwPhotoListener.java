@@ -21,7 +21,7 @@ import java.io.IOException;
 
 @Beans
 public class NsfwPhotoListener extends NsfwService {
-    private static final String IMG_PATH = "~/target/photo_2021-11-20_17-19-12.jpg";
+//    private static final String IMG_PATH = "~/target/photo_2021-11-20_17-19-12.jpg";
     private static int r18 = 0;
 
     /**
@@ -48,55 +48,52 @@ public class NsfwPhotoListener extends NsfwService {
         if (getR18() == 1) {
             sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "R18功能现对群聊关闭");
         }
-        String catCode1 = null;
+        String catCode1;
         try {
             catCode1 = getCatCodeFromApi(false);
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), catCode1);
         } catch (IOException e) {
             e.printStackTrace();
             sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "图片发送失败，请尽快联系开发者");
         }
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), catCode1);
     }
 
     @OnPrivate
     @Filter(value = ".uestc", matchType = MatchType.EQUALS)
     public void sendPrivatePixivPic(PrivateMsg privateMsg, MsgSender sender) {
-        String catCode1 = null;
         try {
-            catCode1 = getCatCodeFromApi(true);
+            String catCode1 = getCatCodeFromApi(true);
+            sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), catCode1);
         } catch (IOException e) {
             e.printStackTrace();
             sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "图片发送失败，请尽快联系开发者");
         }
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), catCode1);
     }
 
     @OnPrivate
     @Filter(value = ".zju", matchType = MatchType.EQUALS)
     public void sendPrivateTvaPic(PrivateMsg privateMsg, MsgSender sender) {
 //        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "url:" + urls);
-        String catCode1 = null;
         try {
-            catCode1 = getPic(true);
+            String catCode1 = getPic(true);
+            sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), catCode1);
         } catch (IOException e) {
             e.printStackTrace();
             sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), "图片发送失败，请尽快联系开发者");
         }
-        sender.SENDER.sendPrivateMsg(privateMsg.getAccountInfo().getAccountCode(), catCode1);
     }
 
     @OnGroup
     @Filter(value = ".zju", matchType = MatchType.EQUALS)
     public void sendGroupTvaPic(GroupMsg groupMsg, MsgSender sender) {
 //        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "url:" + urls);
-        String catCode1 = null;
         try {
-            catCode1 = getPic(false);
-        } catch (IOException e) {
+            String catCode1 = getPic(false);
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), catCode1);
+        } catch (Exception e) {
             e.printStackTrace();
             sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "图片发送失败，请尽快联系开发者");
         }
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), catCode1);
     }
 
     @OnGroup
@@ -123,19 +120,19 @@ public class NsfwPhotoListener extends NsfwService {
         }
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
-        HttpResponse response = null;
+        HttpResponse response;
         try {
             response = client.execute(get);
             HttpEntity entity = response.getEntity();
             String string = EntityUtils.toString(entity);
             url = parseMirlKoiJson(string);
-        } catch (IOException e) {
+            String image = util.getStringTemplate().image(url);
+            sender.SENDER.sendGroupMsg(msg.getGroupInfo().getGroupCode(), image);
+        } catch (Exception e) {
             e.printStackTrace();
             sender.SENDER.sendGroupMsg(msg.getGroupInfo().getGroupCode(), "图片发送失败，请尽快联系开发者");
         }
-//        System.out.println(string);
-        String image = util.getStringTemplate().image(url);
-        sender.SENDER.sendGroupMsg(msg.getGroupInfo().getGroupCode(), image);
+
     }
 
     @OnPrivate
@@ -162,18 +159,19 @@ public class NsfwPhotoListener extends NsfwService {
         }
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(url);
-        HttpResponse response = null;
+        HttpResponse response;
         try {
             response = client.execute(get);
             HttpEntity entity = response.getEntity();
             String string = EntityUtils.toString(entity);
             url = parseMirlKoiJson(string);
-        } catch (IOException e) {
+            String image = util.getStringTemplate().image(url);
+            sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), image);
+        } catch (Exception e) {
             e.printStackTrace();
             sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), "图片发送失败，请尽快联系开发者");
         }
-        String image = util.getStringTemplate().image(url);
-        sender.SENDER.sendPrivateMsg(msg.getAccountInfo().getAccountCode(), image);
+
     }
 
     @OnPrivate
