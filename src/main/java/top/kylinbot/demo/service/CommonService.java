@@ -10,7 +10,8 @@ public class CommonService {
                 "osu:\n" +
                 "  绑定:" + "!oauth\n" +
                 "  查询最近打图:" + "!kypr" + "\n" +
-                "  个人信息:" + "!info";
+                "  个人信息:" + "!info" +
+                "  bp:" + "!kybp" + "后加数字可查询指定bp";
     }
 
     public static String getNudge(String qq) {
