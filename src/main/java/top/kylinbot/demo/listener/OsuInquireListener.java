@@ -17,7 +17,7 @@ public class OsuInquireListener extends OsuService {
     OsuInquireService inquireService = new OsuInquireService();
 
     @OnPrivate
-    @Priority(PriorityConstant.FIRST)
+//    @Priority(PriorityConstant.FIRST)
     @Filter(value = "!info", matchType = MatchType.REGEX_MATCHES)
     public void sendPlayerInfo(PrivateMsg privateMsg, MsgSender sender) {
         String qq = privateMsg.getAccountInfo().getAccountCode();
@@ -31,7 +31,7 @@ public class OsuInquireListener extends OsuService {
     }
 
     @OnGroup
-    @Priority(PriorityConstant.FIRST)
+//    @Priority(PriorityConstant.FIRST)
     @Filter(value = "!info", matchType = MatchType.REGEX_MATCHES)
     public void sendPlayerInfo(GroupMsg groupMsg, MsgSender sender) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
