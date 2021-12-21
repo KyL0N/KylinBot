@@ -158,9 +158,20 @@ public class OsuInquireListener extends OsuService {
     public void sendBeatmapScore(GroupMsg groupMsg, MsgSender sender, @FilterValue("bid") int bid) {
         String qq = groupMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
-        getScore(bid, id);
+        String msg = inquireService.parseBeatmapScore(bid, id);
+        System.out.println(msg);
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
+    }
+
+    @OnPrivate
+    @Filter(value = "!kyscore {{bid,\\d+}}", matchType = MatchType.REGEX_MATCHES)
+    public void sendBeatmapScore(PrivateMsg privateMsg, MsgSender sender, @FilterValue("bid") int bid) {
+        String qq = privateMsg.getAccountInfo().getAccountCode();
+        int id = MysqlUtil.getIDByQQ(qq);
+        String msg = inquireService.parseBeatmapScore(bid, id);
+        System.out.println(msg);
+        sender.SENDER.sendPrivateMsg(qq, msg);
     }
 
 
 }
-                                                                                  

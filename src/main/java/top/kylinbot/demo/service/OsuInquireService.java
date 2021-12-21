@@ -121,7 +121,7 @@ public class OsuInquireService extends OsuService {
                 builder.append("#").append(i + 1)
                         .append(Integer.valueOf(array.getJSONObject(i).getString("pp")).intValue())
                         .append("pp\n");
-            }else{
+            } else {
                 builder.append("...\n...\n...\n");
             }
         }
@@ -138,5 +138,10 @@ public class OsuInquireService extends OsuService {
                 .append(array.getJSONObject(bp - 1).getString("pp")).append("pp\n");
 
         return builder.toString();
+    }
+
+    public String parseBeatmapScore(int bid, int osuID) {
+        JSONObject object =  getScore(bid, osuID);
+        return object.toString();
     }
 }
