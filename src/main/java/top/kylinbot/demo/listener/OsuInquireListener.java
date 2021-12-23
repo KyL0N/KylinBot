@@ -9,6 +9,7 @@ import love.forte.simbot.api.message.events.GroupMsg;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
+import top.kylinbot.demo.modle.PPPlusObject;
 import top.kylinbot.demo.service.OsuInquireService;
 import top.kylinbot.demo.service.OsuService;
 import top.kylinbot.demo.util.JsonUtil;
@@ -138,6 +139,9 @@ public class OsuInquireListener extends OsuService {
     @OnGroup
     @Filter(value = "!kybp {{best,\\d+}}", matchType = MatchType.REGEX_MATCHES)
     public void sendBestBeatmap(GroupMsg groupMsg, MsgSender senders, @FilterValue("best") int bp) {
+        if (groupMsg.getMsgContent().length() == 5) {
+            return;
+        }
         String qq = groupMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
         String msg = inquireService.parseBestBeatmapList(id, bp);
@@ -147,6 +151,9 @@ public class OsuInquireListener extends OsuService {
     @OnPrivate
     @Filter(value = "!kybp {{best,\\d+}}", matchType = MatchType.REGEX_MATCHES)
     public void sendBestBeatmap(PrivateMsg privateMsg, MsgSender senders, @FilterValue("best") int bp) {
+        if (privateMsg.getMsgContent().length() == 5) {
+            return;
+        }
         String qq = privateMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
         String msg = inquireService.parseBestBeatmapList(id, bp);
@@ -171,6 +178,32 @@ public class OsuInquireListener extends OsuService {
         String msg = inquireService.parseBeatmapScore(bid, id);
         System.out.println(msg);
         sender.SENDER.sendPrivateMsg(qq, msg);
+    }
+
+    @OnGroup
+    @Filter(value = ("!kyppv2"), matchType = MatchType.EQUALS)
+    public void sendPlayerPPv2(GroupMsg groupMsg, MsgSender sender) {
+        String qq = groupMsg.getAccountInfo().getAccountCode();
+        String osuID = MysqlUtil.getOsuIDByQQ(qq);
+        PPPlusObject ppv2 = new PPPlusObject();
+        ppv2 = getppPlus(osuID);
+        if (ppv2 == null) {
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "获取pp+数据失败");
+        }
+        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), ppv2.getAcc().toString());
+    }
+
+    @OnPrivate
+    @Filter(value = ("!kyppv2"), matchType = MatchType.EQUALS)
+    public void sendPlayerPPv2(PrivateMsg privateMsg, MsgSender sender) {
+        String qq = privateMsg.getAccountInfo().getAccountCode();
+        String osuID = MysqlUtil.getOsuIDByQQ(qq);
+        PPPlusObject ppv2 = getppPlus(osuID);
+        if (ppv2 == null) {
+            sender.SENDER.sendPrivateMsg(qq, "获取pp+数据失败");
+        } else {
+            sender.SENDER.sendPrivateMsg(qq, "jmp:" + ppv2.getJump().floatValue());
+        }
     }
 
 

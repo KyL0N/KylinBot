@@ -117,12 +117,16 @@ public class OsuInquireService extends OsuService {
         builder.append("玩家").append(array.getJSONObject(0).getJSONObject("user").getString("username"))
                 .append("的bp:\n");
         for (int i = 0; i < 100; i++) {
-            if (i < 5 || i > 95) {
-                builder.append("#").append(i + 1)
-                        .append(Integer.valueOf(array.getJSONObject(i).getString("pp")).intValue())
+            if (i < 5) {
+                builder.append("#").append(i + 1).append(" ")
+                        .append(Double.valueOf(array.getJSONObject(i).getString("pp")).doubleValue())
                         .append("pp\n");
-            } else {
-                builder.append("...\n...\n...\n");
+            } else if (i > 95) {
+                builder.append("#").append(i + 1).append(" ")
+                        .append(Double.valueOf(array.getJSONObject(i).getString("pp")).doubleValue())
+                        .append("pp\n");
+            } else if (i == 6) {
+                builder.append("...\n");
             }
         }
         return builder.toString();
@@ -141,7 +145,7 @@ public class OsuInquireService extends OsuService {
     }
 
     public String parseBeatmapScore(int bid, int osuID) {
-        JSONObject object =  getScore(bid, osuID);
+        JSONObject object = getScore(bid, osuID);
         return object.toString();
     }
 }

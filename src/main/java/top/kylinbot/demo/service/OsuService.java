@@ -2,6 +2,7 @@ package top.kylinbot.demo.service;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import love.forte.simbot.core.configuration.ComponentBeans;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -11,7 +12,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.tillerino.osuApiModel.types.BitwiseMods;
+import top.kylinbot.demo.modle.PPPlusObject;
 import top.kylinbot.demo.modle.osuUser;
+import top.kylinbot.demo.util.JsonUtil;
 import top.kylinbot.demo.util.MysqlUtil;
 
 import java.io.IOException;
@@ -495,5 +498,27 @@ public class OsuService extends RestTemplate {
         return c.getBody();
     }
 
-
+    /***
+     * PP+获取
+     * @param name osuID
+     * @return pp+数据
+     */
+    public PPPlusObject getppPlus(String name) {
+        URI uri = UriComponentsBuilder.fromHttpUrl("https://syrin.me/pp+/api/user/" + name)
+                .build().encode().toUri();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity httpEntity = new HttpEntity(headers);
+        ResponseEntity<JsonNode> c = null;
+        try {
+            c = exchange(uri, HttpMethod.GET, httpEntity, JsonNode.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }finally {
+            return JsonUtil.parseObject(c.getBody().get("user_data"), PPPlusObject.class);
+        }
+//        System.out.println(c);
+    }
 }
