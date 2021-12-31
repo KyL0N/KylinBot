@@ -129,6 +129,7 @@ public class OsuInquireService extends OsuService {
                 builder.append("...\n");
             }
         }
+        builder.append("玩家BP");
         return builder.toString();
     }
 
@@ -138,8 +139,8 @@ public class OsuInquireService extends OsuService {
         StringBuilder builder = new StringBuilder();
         builder.append("玩家").append(array.getJSONObject(0).getJSONObject("user").getString("username"))
                 .append("的bp:\n");
-        builder.append("#").append(bp)
-                .append(array.getJSONObject(bp - 1).getString("pp")).append("pp\n");
+        builder.append("#").append(bp).append(" ")
+                .append(array.getJSONObject(bp - 1).getString("pp")).append("pp");
 
         return builder.toString();
     }

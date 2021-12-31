@@ -516,9 +516,9 @@ public class OsuService extends RestTemplate {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
-        }finally {
-            return JsonUtil.parseObject(c.getBody().get("user_data"), PPPlusObject.class);
         }
+        return JsonUtil.parseObject(c.getBody().get("user_data"), PPPlusObject.class);
+
 //        System.out.println(c);
     }
 }

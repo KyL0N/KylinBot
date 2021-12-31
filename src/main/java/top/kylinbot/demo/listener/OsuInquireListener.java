@@ -118,45 +118,49 @@ public class OsuInquireListener extends OsuService {
 
     }
 
-    @OnGroup
-    @Filter(value = "!kybp", matchType = MatchType.REGEX_MATCHES)
-    public void sendBestBeatmapList(GroupMsg groupMsg, MsgSender senders) {
-        String qq = groupMsg.getAccountInfo().getAccountCode();
-        int id = MysqlUtil.getIDByQQ(qq);
-        String msg = inquireService.parseBestBeatmapList(id);
-        senders.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
-    }
+//    @OnGroup
+//    @Filter(value = "!kybp", matchType = MatchType.REGEX_MATCHES)
+//    public void sendBestBeatmapList(GroupMsg groupMsg, MsgSender senders) {
+//        String qq = groupMsg.getAccountInfo().getAccountCode();
+//        int id = MysqlUtil.getIDByQQ(qq);
+//        String msg = inquireService.parseBestBeatmapList(id);
+//        senders.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
+//    }
 
-    @OnPrivate
-    @Filter(value = "!kybp", matchType = MatchType.REGEX_MATCHES)
-    public void sendBestBeatmapList(PrivateMsg privateMsg, MsgSender senders) {
-        String qq = privateMsg.getAccountInfo().getAccountCode();
-        int id = MysqlUtil.getIDByQQ(qq);
-        String msg = inquireService.parseBestBeatmapList(id);
-        senders.SENDER.sendPrivateMsg(qq, msg);
-    }
+//    @OnPrivate
+//    @Filter(value = "!kybp", matchType = MatchType.REGEX_MATCHES)
+//    public void sendBestBeatmapList(PrivateMsg privateMsg, MsgSender senders) {
+//        String qq = privateMsg.getAccountInfo().getAccountCode();
+//        int id = MysqlUtil.getIDByQQ(qq);
+//        String msg = inquireService.parseBestBeatmapList(id);
+//        senders.SENDER.sendPrivateMsg(qq, msg);
+//    }
 
     @OnGroup
-    @Filter(value = "!kybp {{best,\\d+}}", matchType = MatchType.REGEX_MATCHES)
+    @Filter(value = "!kybp {{best,\\d+}}", matchType = MatchType.REGEX_FIND)
     public void sendBestBeatmap(GroupMsg groupMsg, MsgSender senders, @FilterValue("best") int bp) {
-        if (groupMsg.getMsgContent().length() == 5) {
-            return;
-        }
         String qq = groupMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
-        String msg = inquireService.parseBestBeatmapList(id, bp);
+        String msg = null;
+        if (groupMsg.getMsgContent().length() == 5) {
+            msg = inquireService.parseBestBeatmapList(id);
+        } else {
+            msg = inquireService.parseBestBeatmapList(id, bp);
+        }
         senders.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
     }
 
     @OnPrivate
-    @Filter(value = "!kybp {{best,\\d+}}", matchType = MatchType.REGEX_MATCHES)
+    @Filter(value = "!kybp {{best,\\d+}}?", trim = true, matchType = MatchType.REGEX_FIND)
     public void sendBestBeatmap(PrivateMsg privateMsg, MsgSender senders, @FilterValue("best") int bp) {
-        if (privateMsg.getMsgContent().length() == 5) {
-            return;
-        }
         String qq = privateMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
-        String msg = inquireService.parseBestBeatmapList(id, bp);
+        String msg;
+        if (privateMsg.getMsgContent().length() == 5) {
+            msg = inquireService.parseBestBeatmapList(id);
+        } else {
+            msg = inquireService.parseBestBeatmapList(id, bp);
+        }
         senders.SENDER.sendPrivateMsg(qq, msg);
     }
 
@@ -166,7 +170,7 @@ public class OsuInquireListener extends OsuService {
         String qq = groupMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
         String msg = inquireService.parseBeatmapScore(bid, id);
-        System.out.println(msg);
+//        System.out.println(msg);
         sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), msg);
     }
 
@@ -176,7 +180,7 @@ public class OsuInquireListener extends OsuService {
         String qq = privateMsg.getAccountInfo().getAccountCode();
         int id = MysqlUtil.getIDByQQ(qq);
         String msg = inquireService.parseBeatmapScore(bid, id);
-        System.out.println(msg);
+//        System.out.println(msg);
         sender.SENDER.sendPrivateMsg(qq, msg);
     }
 
@@ -186,11 +190,13 @@ public class OsuInquireListener extends OsuService {
         String qq = groupMsg.getAccountInfo().getAccountCode();
         String osuID = MysqlUtil.getOsuIDByQQ(qq);
         PPPlusObject ppv2 = new PPPlusObject();
-        ppv2 = getppPlus(osuID);
-        if (ppv2 == null) {
+        try {
+            ppv2 = getppPlus(osuID);
+            sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), ppv2.getAcc().toString());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
             sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), "获取pp+数据失败");
         }
-        sender.SENDER.sendGroupMsg(groupMsg.getGroupInfo().getGroupCode(), ppv2.getAcc().toString());
     }
 
     @OnPrivate
