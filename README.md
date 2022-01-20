@@ -7,9 +7,12 @@
 
 [中](https://github.com/KyL0N/KylinBot/blob/main/README.zh-CN.md) / [English](https://github.com/KyL0N/KylinBot/blob/main/README.md)
 
+
 This project is  based on [simple-robot](https://github.com/ForteScarlet/simpler-robot) which framework use [mirai component ](https://github.com/ForteScarlet/simpler-robot/tree/dev/component/component-mirai)to [Mirai](https://github.com/mamoe/mirai) 's demo project
 
+## Project In WIP
 
+Oh well, cuz personal reseaons, I'm not wanna to spending time on this project, but maybe sometimes I will come back and rebuild what I love and what I eager.
 
 ## Install
 
