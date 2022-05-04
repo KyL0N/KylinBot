@@ -1,5 +1,6 @@
 package top.kylinbot.demo.modle;
 
+
 import top.kylinbot.demo.service.OsuService;
 
 public class osuUser {

@@ -27,7 +27,7 @@ git clone https://github.com/KyL0N/KylinBot.git
 ## Usage
 
 - configuration
-open [src/main/](src/main/resources) and create a directory named simbot-bots, create file`yourBot1.bot`into the  directory, put below in it
+open [src/main/](src/main/java/main/resources) and create a directory named simbot-bots, create file`yourBot1.bot`into the  directory, put below in it
 
 
 ```yaml
@@ -36,7 +36,7 @@ password=yourQQpasswd
 ```
 
 
-open [src/main/resources](src/main/resources) create a file name `KylinBot.properties` 
+open [src/main/resources](src/main/java/main/resources) create a file name `KylinBot.properties` 
 put in as followed
 
 ```properties
@@ -64,7 +64,7 @@ TillerinoBotKey=xxxxxxxxxx                          #in https://ppaddict.tilleri
 
 - run
 
-  run main function in[KylinBotApplication](src/main/java/top/kylinbot/demo/KylinBotApplication.java)
+  run main function in[KylinBotApplication](src/main/java/main/java/main/java/top/kylinbot/demo/KylinBotApplication.java)
 
 ## TODO
 1. - [ ] Complete Basic Func

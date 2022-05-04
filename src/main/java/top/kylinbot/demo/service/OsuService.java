@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import love.forte.simbot.core.configuration.ComponentBeans;
+
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -37,7 +38,7 @@ public class OsuService extends RestTemplate {
     static {
         try {
             Properties props = new Properties();
-            InputStream inputStream = MysqlUtil.class.getClassLoader().getResourceAsStream("KylinBot.properties");
+            InputStream inputStream = MysqlUtil.class.getClassLoader().getResourceAsStream("main/resources/KylinBot.properties");
             props.load(inputStream);
             oauthId = props.getProperty("oauthID");
             redirectUrl = props.getProperty("redirectUrl");

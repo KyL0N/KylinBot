@@ -10,6 +10,7 @@ import love.forte.simbot.api.sender.MsgSender;
 import love.forte.simbot.filter.MatchType;
 import top.kylinbot.demo.util.HtmlUtil;
 
+
 @Beans
 public class MahjongListener {
     private static final String PHONE_GROUP = "==tellMeYourNameAndPhone==PHONE==";

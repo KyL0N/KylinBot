@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor(onConstructor = @__(@Deprecated))
+
 public class PercentageEstimatesImpl implements PercentageEstimates {
 	private BeatmapImpl beatmap;
 

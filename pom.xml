@@ -6,7 +6,7 @@
 
     <groupId>kylinbot</groupId>
     <artifactId>kylin-mirai</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -111,7 +111,7 @@
                 <version>2.5.3</version>
                 <configuration>
                     <!-- main方法所在类。 -->
-                    <mainClass>top.kylinbot.demo.KylinBotApplication</mainClass>
+                    <mainClass>main.java.top.kylinbot.demo.KylinBotApplication</mainClass>
 <!--                    ////-->
                     <fork>true</fork>
                     <layout>ZIP</layout>

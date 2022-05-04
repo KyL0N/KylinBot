@@ -102,7 +102,7 @@ public class NsfwPhotoListener extends NsfwService {
         CatCodeUtil util = CatCodeUtil.INSTANCE;
         String url;
         String url1 = "https://iw233.cn/API/Random.php?type=json";
-        String url2 = "https://iw233.cn/API/MirlKoi.php?type=json";
+        String url2 = "https://iw233.cn/api.php?sort=random&type=json";
         String url3 = "https://www.yingciyuan.cn/api.php";
         int seed = (int) (Math.random() * 30);
         if (seed < 10) {

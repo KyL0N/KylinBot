@@ -8,7 +8,7 @@ import org.tillerino.osuApiModel.types.BitwiseMods;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(onConstructor = @__(@Deprecated))
+
 // suppress warning about case-insensitive field collision, because we cannot change the names in CBeatmap
 @SuppressWarnings("squid:S1845")
 @SuppressFBWarnings("NM")
@@ -26,15 +26,15 @@ public class BeatmapImpl implements Beatmap {
     @Override
     public double DifficultyAttribute(@BitwiseMods long mods, int kind) {
         switch (kind) {
-            case Beatmap.OD:
+            case OD:
                 return beatmap.getOverallDifficulty(mods);
-            case Beatmap.AR:
+            case AR:
                 return beatmap.getApproachRate(mods);
-            case Beatmap.Speed:
+            case Speed:
                 return speed;
-            case Beatmap.Aim:
+            case Aim:
                 return aim;
-            case Beatmap.MaxCombo:
+            case MaxCombo:
                 return beatmap.getMaxCombo();
             default:
                 throw new UnsupportedOperationException("" + kind);

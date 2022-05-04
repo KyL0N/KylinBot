@@ -25,7 +25,7 @@ git clone https://github.com/KyL0N/KylinBot.git
 
 - 配置文件
 
-打开文件夹  [src/main/resources](src/main/resources)  并创建一个名为 simbot-bots 的文件夹，在文件夹中创建 `yourBot1.bot` 文件，填入
+打开文件夹  [src/main/resources](src/main/java/main/resources)  并创建一个名为 simbot-bots 的文件夹，在文件夹中创建 `yourBot1.bot` 文件，填入
 
 
 ```yaml
@@ -33,7 +33,7 @@ code=QQ号
 password=QQ密码
 ```
 
-打开文件夹  [src/main/resources](src/main/resources)  再创建一个文件名为 `KylinBot.properties` 的文件
+打开文件夹  [src/main/resources](src/main/java/main/resources)  再创建一个文件名为 `KylinBot.properties` 的文件
 填入
 
 ```properties
@@ -60,7 +60,7 @@ TillerinoBotKey=xxxxxxxxxx                          在https://ppaddict.tillerin
 
 - 运行
 
-  执行 [KylinBotApplication](src/main/java/top/kylinbot/demo/KylinBotApplication.java)  中的 main 方法
+  执行 [KylinBotApplication](src/main/java/main/java/main/java/top/kylinbot/demo/KylinBotApplication.java)  中的 main 方法
 
 ## TODO
 1. - [ ] 完成基本框架

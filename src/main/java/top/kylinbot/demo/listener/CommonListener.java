@@ -13,6 +13,7 @@ import love.forte.simbot.filter.MatchType;
 import org.apache.logging.log4j.util.ProcessIdUtil;
 import top.kylinbot.demo.service.CommonService;
 
+
 @Beans
 public class CommonListener {
 

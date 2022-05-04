@@ -10,10 +10,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import top.kylinbot.demo.listener.NsfwPhotoListener;
 
 import java.io.IOException;
-
-import static top.kylinbot.demo.listener.NsfwPhotoListener.getR18;
 
 
 public class NsfwService {
@@ -30,7 +29,7 @@ public class NsfwService {
 //        String url = "https://api.lolicon.app/setu/v2?size=regular";
         String url = "https://api.lolicon.app/setu/v2?size=" + size;
         if (isPri) {
-            if (getR18() == 1) {
+            if (NsfwPhotoListener.getR18() == 1) {
                 url = url + "&r18=1";
             }
         }
@@ -43,7 +42,7 @@ public class NsfwService {
 //        String urlEncoded = CatEncoder.getInstance().encodeParams(urls);
         CatCodeUtil util = CatCodeUtil.INSTANCE;
         if (isPri) {
-            if (getR18() == 1) {
+            if (NsfwPhotoListener.getR18() == 1) {
                 return "由于腾讯风险控制, 链接请自行查看: \n" + urls;
             }
         }
@@ -56,7 +55,7 @@ public class NsfwService {
         HttpClient client = HttpClients.createDefault();
         String url = toubiec;
         if (isPri) {
-            if (getR18() == 1) {
+            if (NsfwPhotoListener.getR18() == 1) {
                 url = url + "&r18=1";
             }
         }
@@ -69,7 +68,7 @@ public class NsfwService {
 //        String urlEncoded = CatEncoder.getInstance().encodeParams(urls);
         CatCodeUtil util = CatCodeUtil.INSTANCE;
         if (isPri) {
-            if (getR18() == 1) {
+            if (NsfwPhotoListener.getR18() == 1) {
                 return "由于腾讯风险控制, 链接请自行查看: \n" + urls;
             }
         }

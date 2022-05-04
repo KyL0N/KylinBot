@@ -16,7 +16,7 @@ public class MysqlUtil {
     static {
         try {
             Properties props = new Properties();
-            InputStream inputStream = MysqlUtil.class.getClassLoader().getResourceAsStream("KylinBot.properties");
+            InputStream inputStream = MysqlUtil.class.getClassLoader().getResourceAsStream("main/resources/KylinBot.properties");
             props.load(inputStream);
             url = props.getProperty("MysqlUrl");
             user = props.getProperty("MysqlUser");
